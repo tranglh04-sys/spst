@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HCM Learning Hub - Đại học FPT</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { orange: '#F37021', dark: '#1E1E24', slate: '#64748B', gold: '#FFD700', red: '#C8102E' },
+                        surface: { bg: '#FFFFFF', card: '#F8F9FA', border: '#E2E8F0', muted: '#F1F5F9' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Be Vietnam Pro', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .page { display: none; animation: fadeIn 0.3s ease-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Mobile Scrollbar Hide */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* General Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Flashcard 3D Core */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-surface-muted text-brand-dark font-sans min-h-screen flex flex-col selection:bg-brand-orange selection:text-white">
+
+    <header class="sticky top-0 z-50 w-full border-b border-surface-border bg-white/95 backdrop-blur-md">
+        <div class="container mx-auto flex flex-col md:flex-row md:h-16 max-w-7xl items-center justify-between px-4 py-2 md:py-0 gap-2 md:gap-0">
+            <div class="flex items-center space-x-2 cursor-pointer w-full md:w-auto justify-between md:justify-start" onclick="navigate('dashboard')">
+                <div class="flex items-center space-x-2">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-orange text-white font-bold text-lg font-display">F</div>
+                    <span class="font-bold text-lg md:text-xl tracking-tight font-display">HCM <span class="text-brand-orange">Hub</span></span>
+                </div>
+            </div>
+            <nav class="flex items-center space-x-1 md:space-x-2 overflow-x-auto hide-scrollbar w-full md:w-auto pb-1 md:pb-0">
+                <button onclick="navigate('dashboard')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted hover:text-brand-dark" data-target="dashboard">
+                    <i data-lucide="layout-dashboard" class="h-4 w-4"></i><span>Tổng quan</span>
+                </button>
+                <button onclick="navigate('lessons')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted hover:text-brand-dark" data-target="lessons">
+                    <i data-lucide="book-open" class="h-4 w-4"></i><span>Lộ trình</span>
+                </button>
+                <button onclick="navigate('practical')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted hover:text-brand-dark" data-target="practical">
+                    <i data-lucide="lightbulb" class="h-4 w-4"></i><span>Góc Thực tiễn</span>
+                </button>
+                
+                <button onclick="navigate('resources')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted hover:text-brand-dark" data-target="resources">
+                    <i data-lucide="library" class="h-4 w-4"></i><span>Tài nguyên</span>
+                </button>
+                <button onclick="navigate('timeline')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted hover:text-brand-dark" data-target="timeline">
+                    <i data-lucide="map" class="h-4 w-4"></i><span>Bản đồ Lịch sử</span>
+                </button>
+
+            </nav>
+        </div>
+    </header>
+
+    <div class="flex-1 w-full">
+
+        <main id="dashboard" class="page active container mx-auto max-w-7xl px-4 py-6 md:py-8 space-y-8 md:space-y-10">
+            <section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 via-brand-dark to-zinc-900 p-6 md:p-12 text-white shadow-xl">
+                <div class="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-brand-orange/20 blur-3xl"></div>
+                <div class="max-w-3xl space-y-4 relative z-10">
+                    <div class="inline-flex items-center space-x-2 rounded-full bg-brand-orange/20 px-3 py-1 text-xs md:text-sm font-medium text-brand-orange border border-brand-orange/30">
+                        <span>Đại học FPT Branding Edition</span>
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight font-display leading-tight">Nền tảng Học tập<br><span class="text-brand-orange">Tư tưởng Hồ Chí Minh</span></h1>
+                    <p class="text-sm md:text-lg text-zinc-400">Trải nghiệm học tập trực quan, hệ thống thẻ ghi nhớ thông minh và trắc nghiệm thực chiến bám sát giáo trình.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button onclick="navigate('lessons')" class="flex items-center justify-center h-11 px-6 rounded-lg font-medium bg-brand-orange hover:bg-orange-600 transition-colors w-full sm:w-auto">
+                            Bắt đầu học ngay <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                        </button>
+                        <button onclick="navigate('flashcards')" class="flex items-center justify-center h-11 px-6 rounded-lg font-medium border border-zinc-700 hover:bg-zinc-800 transition-colors w-full sm:w-auto">
+                            Ôn luyện Flashcards
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4">
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Tiến độ tổng quan</h3><i data-lucide="book-open" class="h-5 w-5 text-brand-orange"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-percent" class="text-3xl md:text-4xl font-bold text-brand-dark">0%</span><span class="text-xs md:text-sm text-brand-slate">hoàn thành</span></div>
+                    <div class="h-2 md:h-3 w-full rounded-full bg-surface-muted overflow-hidden"><div id="dash-bar" class="h-full bg-gradient-to-r from-brand-orange to-amber-500 transition-all duration-500 w-0"></div></div>
+                    <p id="dash-lessons-txt" class="text-xs text-brand-slate">Đã học 0/0 tiểu mục lý luận.</p>
+                </div>
+                <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4">
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Thẻ Flashcard</h3><i data-lucide="flame" class="h-5 w-5 text-amber-500"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-cards" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">khái niệm</span></div>
+                    <div class="h-2 md:h-3 w-full rounded-full bg-surface-muted overflow-hidden"><div id="dash-card-bar" class="h-full bg-amber-500 transition-all duration-500 w-0"></div></div>
+                    <p class="text-xs text-brand-slate">Chủ động ghi nhớ sâu các định nghĩa nền tảng.</p>
+                </div>
+                <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4 sm:col-span-2 md:col-span-1">
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Huy hiệu đạt được</h3><i data-lucide="award" class="h-5 w-5 text-brand-gold"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-badges-count" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">danh hiệu</span></div>
+                    <div id="dash-badges-list" class="flex gap-2 pt-1 flex-wrap"></div>
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-bold text-brand-dark font-display">Danh mục Chương giáo trình</h2>
+                <div id="dashboard-chapters-container" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    </div>
+            </section>
+        </main>
+
+        <main id="lessons" class="page container mx-auto max-w-7xl px-4 py-6 md:py-8">
+            <div class="grid gap-6 lg:gap-8 lg:grid-cols-4">
+                <div class="lg:col-span-1 space-y-3">
+                    <h2 class="font-bold text-base md:text-lg text-brand-dark uppercase tracking-wider px-1 font-display">Lộ trình 6 Chương</h2>
+                    <div id="lessons-sidebar" class="flex flex-row lg:flex-col overflow-x-auto hide-scrollbar lg:overflow-x-visible gap-2 pb-2 lg:pb-0">
+                        </div>
+                </div>
+                <div class="lg:col-span-3 bg-white rounded-2xl border border-surface-border p-4 sm:p-6 md:p-8 shadow-sm space-y-6 md:space-y-8" id="lessons-content">
+                    </div>
+            </div>
+        </main>
+
+        <main id="practical" class="page container mx-auto max-w-5xl px-4 py-8 md:py-12 space-y-8">
+            <div class="text-center space-y-3">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight font-display">Góc Vận Dụng Thực Tiễn</h1>
+                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto leading-relaxed">Đưa lý luận của Chủ tịch Hồ Chí Minh ra khỏi trang sách, ứng dụng trực tiếp vào đời sống, học tập và rèn luyện của sinh viên thời đại công nghệ số.</p>
+            </div>
+            
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="rounded-xl border border-surface-border bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 rounded-lg bg-emerald-100 text-emerald-600"><i data-lucide="target" class="h-6 w-6"></i></div>
+                        <h2 class="text-lg font-bold text-brand-dark font-display">Đạo đức "Cần, Kiệm, Liêm, Chính" trong Học tập</h2>
+                    </div>
+                    <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
+                        <li><b>Cần:</b> Chủ động, tự giác nghiên cứu tài liệu trên Coursera/Udemy, không chờ đợi giảng viên nhắc nhở.</li>
+                        <li><b>Kiệm:</b> Tiết kiệm thời gian, không sa đà vào mạng xã hội; tiết kiệm tài nguyên của trường (điện, nước).</li>
+                        <li><b>Liêm:</b> Tuyệt đối không gian lận trong thi cử (không copy code, đạo văn, sử dụng phao thi).</li>
+                        <li><b>Chính:</b> Bảo vệ cái đúng, dũng cảm lên tiếng trước các hành vi tiêu cực trong lớp học.</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-xl border border-surface-border bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 rounded-lg bg-blue-100 text-blue-600"><i data-lucide="users" class="h-6 w-6"></i></div>
+                        <h2 class="text-lg font-bold text-brand-dark font-display">Tư tưởng "Đại đoàn kết" khi làm Đồ án (Groupwork)</h2>
+                    </div>
+                    <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
+                        <li>Đoàn kết không phải là "cả nể", mà là phân công công việc rõ ràng, hỗ trợ nhau cùng hoàn thành mục tiêu chung của Project.</li>
+                        <li>Thực hiện <b>"Tự phê bình và phê bình"</b>: Góp ý thẳng thắn cho thành viên làm việc trễ deadline trên tinh thần xây dựng, không công kích cá nhân.</li>
+                        <li>Trân trọng sự khác biệt (khoan dung): Lắng nghe ý tưởng của mọi thành viên, kết hợp sức mạnh của từng cá nhân.</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-xl border border-surface-border bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 rounded-lg bg-orange-100 text-brand-orange"><i data-lucide="globe" class="h-6 w-6"></i></div>
+                        <h2 class="text-lg font-bold text-brand-dark font-display">Kết hợp Sức mạnh dân tộc & Thời đại 4.0</h2>
+                    </div>
+                    <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
+                        <li><b>Sức mạnh thời đại:</b> Chủ động học hỏi công nghệ mới (AI, Blockchain), nâng cao trình độ ngoại ngữ (Tiếng Anh, Nhật) để hội nhập.</li>
+                        <li><b>Sức mạnh dân tộc:</b> Mang trí tuệ, sản phẩm công nghệ của người Việt ra toàn cầu nhưng vẫn giữ gìn bản sắc văn hóa, không bị "hòa tan".</li>
+                        <li>Lan tỏa hình ảnh đẹp về sinh viên Việt Nam thân thiện, thông minh với bạn bè quốc tế.</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-xl border border-surface-border bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 rounded-lg bg-rose-100 text-rose-600"><i data-lucide="shield-alert" class="h-6 w-6"></i></div>
+                        <h2 class="text-lg font-bold text-brand-dark font-display">Chống "Chủ nghĩa cá nhân" thời mạng xã hội</h2>
+                    </div>
+                    <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
+                        <li>Không vì câu view, câu like mà đăng tải thông tin sai sự thật, tin giả (fake news) làm ảnh hưởng đến cộng đồng.</li>
+                        <li>Bài trừ bệnh "Bệnh kiêu ngạo": Luôn giữ tinh thần học hỏi, biết mình biết ta, không tự mãn khi đạt điểm cao.</li>
+                        <li>Thượng tôn pháp luật ("Pháp quyền nhân nghĩa"): Chấp hành luật an ninh mạng, luật giao thông, sống có trách nhiệm.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <main id="flashcards" class="page container mx-auto max-w-xl px-4 py-8 md:py-12 space-y-6 md:space-y-8 flex flex-col items-center">
+            <div class="text-center space-y-2 w-full">
+                <div class="flex justify-center mb-2 md:mb-4"><button onclick="navigate('dashboard')" class="text-brand-slate hover:text-brand-orange text-sm flex items-center transition-colors"><i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Về Tổng quan</button></div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-brand-dark tracking-tight font-display">Thẻ Ghi Nhớ (Flashcards)</h1>
+                <p class="text-brand-slate text-xs md:text-sm">Lật thẻ để ôn luyện các định nghĩa lý luận cốt lõi.</p>
+                <div id="flashcard-progress-txt" class="text-xs text-brand-orange font-bold uppercase tracking-wider pt-2">Tiến độ: Card 1 / x</div>
+            </div>
+
+            <div id="flashcard-container" class="w-full h-72 md:h-80 cursor-pointer select-none relative group perspective-1000" onclick="toggleFlashcard()">
+                <div id="flashcard-inner" class="w-full h-full transform-style-3d relative">
+                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-surface-border bg-white shadow-md p-6 flex flex-col justify-between backface-hidden group-hover:border-brand-orange/40 transition-colors">
+                        <span id="fc-chapter" class="text-xs font-bold text-brand-orange uppercase tracking-widest">CHAPTER</span>
+                        <div id="fc-concept" class="text-center text-xl md:text-2xl font-extrabold text-brand-dark px-2 md:px-4 font-display">Concept</div>
+                        <div class="flex justify-center items-center text-xs text-brand-slate gap-1 font-medium">
+                            <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i> Chạm để xem định nghĩa
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-brand-orange bg-orange-50/95 shadow-lg p-5 md:p-6 flex flex-col justify-between backface-hidden rotate-y-180">
+                        <span class="text-xs font-bold text-brand-orange uppercase tracking-widest text-center">GIẢI THÍCH</span>
+                        <div id="fc-def" class="text-zinc-800 text-sm md:text-base font-medium leading-relaxed px-1 md:px-2 text-center overflow-y-auto max-h-48 hide-scrollbar">Definition</div>
+                        <div class="text-center text-xs text-brand-orange font-bold">HCM Learning Hub</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4">
+                <div class="flex gap-2 w-full sm:w-auto justify-center">
+                    <button onclick="prevFlashcard()" class="flex-1 sm:flex-none h-11 sm:h-10 px-4 rounded-lg border border-surface-border hover:bg-surface-muted flex items-center justify-center transition-colors"><i data-lucide="chevron-left" class="h-5 w-5"></i></button>
+                    <button onclick="toggleFlashcard()" class="flex-[2] sm:flex-none h-11 sm:h-10 px-6 rounded-lg border border-surface-border font-medium hover:bg-surface-muted transition-colors">Lật thẻ</button>
+                    <button onclick="nextFlashcard()" class="flex-1 sm:flex-none h-11 sm:h-10 px-4 rounded-lg border border-surface-border hover:bg-surface-muted flex items-center justify-center transition-colors"><i data-lucide="chevron-right" class="h-5 w-5"></i></button>
+                </div>
+                <button onclick="masterFlashcard()" class="w-full sm:w-auto h-11 sm:h-10 px-6 rounded-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 shadow-md flex items-center justify-center transition-colors">
+                    <i data-lucide="check" class="mr-2 h-4 w-4"></i> Đã thuộc thẻ này
+                </button>
+            </div>
+        </main>
+
+        <main id="quiz" class="page container mx-auto max-w-3xl px-4 py-6 md:py-8 space-y-6 md:space-y-8">
+            <div id="quiz-header" class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-surface-border pb-4 gap-2 sm:gap-0">
+                </div>
+            <div id="quiz-questions" class="space-y-4 md:space-y-6">
+                </div>
+            <div id="quiz-footer" class="bg-surface-card rounded-xl border border-surface-border p-4 md:p-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                </div>
+        </main>
+
+        <main id="resources" class="page container mx-auto max-w-7xl px-4 py-8 md:py-12 space-y-8 md:space-y-12">
+            <div class="text-center space-y-2">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight font-display">Tài Nguyên Học Tập</h1>
+                <p class="text-brand-slate text-sm md:text-base max-w-xl mx-auto">Kho dữ liệu văn kiện, tài liệu ôn thi đặc quyền cho sinh viên.</p>
+            </div>
+            <div class="grid gap-6 md:gap-8 lg:grid-cols-3">
+                <div class="lg:col-span-2 space-y-4 md:space-y-6">
+                    <div class="border-b border-surface-border pb-4">
+                        <h2 class="text-xl font-bold text-brand-dark flex items-center gap-2 font-display"><i data-lucide="book-marked" class="text-brand-orange h-5 w-5"></i> Kho tài liệu số</h2>
+                    </div>
+                    <div class="grid gap-3 md:gap-4" id="resources-list">
+                        </div>
+                </div>
+                <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                    <div class="border-b border-surface-border pb-4">
+                        <h2 class="text-xl font-bold text-brand-dark flex items-center gap-2 font-display"><i data-lucide="message-square" class="text-brand-orange h-5 w-5"></i> FAQ Sinh viên</h2>
+                    </div>
+                    <div class="space-y-3 md:space-y-4" id="forums-list">
+                        </div>
+                </div>
+            </div>
+        </main>
+
+
+        <main id="timeline" class="page container mx-auto max-w-4xl px-4 py-8 md:py-12 space-y-8">
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center space-x-2 rounded-full bg-brand-gold/20 px-3 py-1 text-xs md:text-sm font-medium text-amber-600 border border-amber-200">
+                    <i data-lucide="compass" class="h-4 w-4"></i><span>Hành trình Tư tưởng</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight font-display">Bản Đồ Con Số Lịch Sử</h1>
+                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto">Hệ thống hóa các cột mốc thời gian và sự kiện quan trọng có tính bước ngoặt trong quá trình hình thành, phát triển Tư tưởng Hồ Chí Minh.</p>
+            </div>
+
+            <!-- Timeline Wrapper -->
+            <div class="relative wrap overflow-hidden p-4 md:p-8 h-full">
+                <!-- Đường thẳng đứng ở giữa -->
+                <div class="border-2-2 absolute border-opacity-20 border-brand-orange h-full border hidden md:block" style="left: 50%"></div>
+                <!-- Đường thẳng đứng bên trái (cho Mobile) -->
+                <div class="border-2-2 absolute border-opacity-20 border-brand-orange h-full border md:hidden" style="left: 20px"></div>
+                
+                <div id="timeline-container" class="space-y-8 relative">
+                    <!-- Dữ liệu JS sẽ được render vào đây -->
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // --- 1. KNOWLEDGE DATA ENHANCEMENT ---
+        const chaptersData = [
+            {
+                id: "chapter-1", number: 1,
+                title: "Khái niệm, đối tượng, phương pháp nghiên cứu",
+                intro: "Trang bị kiến thức nền tảng mang tính nhập môn về hệ thống tư tưởng của Chủ tịch Hồ Chí Minh, định rõ bản chất khoa học lý luận của môn học.",
+                objectives: [
+                    "Hiểu rõ nội hàm hệ thống khái niệm Tư tưởng Hồ Chí Minh (Đại hội XI - 2011).",
+                    "Xác định đúng đối tượng nghiên cứu: Hệ thống quan điểm và quá trình hiện thực hóa trong thực tiễn.",
+                    "Nắm vững nguyên tắc phương pháp luận: Thống nhất tính đảng và tính khoa học."
+                ],
+                sections: [
+                    { id: "ch-1-sec-1", title: "1. Khái niệm Tư tưởng Hồ Chí Minh", content: "Đại hội XI (2011) định nghĩa: 'Tư tưởng Hồ Chí Minh là một hệ thống quan điểm toàn diện và sâu sắc về những vấn đề cơ bản của cách mạng Việt Nam, kết quả của sự vận dụng và phát triển sáng tạo chủ nghĩa Mác - Lênin vào điều kiện cụ thể của nước ta, kế thừa và phát triển các giá trị truyền thống tốt đẹp của dân tộc, tiếp thu tinh hoa văn hoá nhân loại; là tài sản tinh thần vô cùng to lớn và quý giá của Đảng và dân tộc ta...'." },
+                    { id: "ch-1-sec-2", title: "2. Đối tượng nghiên cứu", content: "Bao gồm: Toàn bộ những quan điểm của Hồ Chí Minh thể hiện trong di sản của Người; và quá trình hệ thống quan điểm đó vận động trong thực tiễn (quá trình 'hiện thực hóa' tư tưởng)." },
+                    { id: "ch-1-sec-3", title: "3. Phương pháp luận nghiên cứu", content: "Nguyên tắc cốt lõi:\n- Thống nhất tính đảng và tính khoa học (đứng trên lập trường GCCN, đảm bảo khách quan).\n- Thống nhất lý luận và thực tiễn (lý luận làm kim chỉ nam, thực tiễn kiểm nghiệm lý luận).\n- Quan điểm lịch sử - cụ thể (xem xét sự vật trong bối cảnh sinh ra nó).\n- Quan điểm toàn diện và hệ thống.\n- Quan điểm kế thừa và phát triển (không ngừng đổi mới sáng tạo)." },
+                    { id: "ch-1-sec-4", title: "4. Ý nghĩa học tập", content: "Việc học tập giúp sinh viên nâng cao năng lực tư duy lý luận, giáo dục và thực hành đạo đức cách mạng, củng cố niềm tin khoa học, và xây dựng rèn luyện phương pháp, phong cách công tác khoa học." }
+                ],
+                summary: "Tư tưởng Hồ Chí Minh cùng với Chủ nghĩa Mác-Lênin là nền tảng tư tưởng, kim chỉ nam hành động của Đảng Cộng sản Việt Nam.",
+            },
+            {
+                id: "chapter-2", number: 2,
+                title: "Cơ sở, quá trình hình thành và phát triển",
+                intro: "Phân tích các nguồn gốc khách quan và nhân tố chủ quan thúc đẩy sự chuyển biến tư tưởng của Nguyễn Ái Quốc.",
+                objectives: [
+                    "Phân tích cơ sở thực tiễn Việt Nam cuối thế kỷ 19, đầu thế kỷ 20.",
+                    "Hiểu rõ vai trò quyết định của chủ nghĩa Mác - Lênin làm bước nhảy vọt.",
+                    "Nắm được 5 mốc thời gian hình thành và phát triển tư tưởng."
+                ],
+                sections: [
+                    { id: "ch-2-sec-1", title: "1. Cơ sở thực tiễn", content: "- Trong nước: Cuối TK XIX đầu XX, các phong trào Cần Vương, Đông Du, Duy Tân thất bại. Xã hội VN xuất hiện mâu thuẫn mới: Dân tộc VN với ĐQ Pháp, Nông dân với Địa chủ.\n- Thế giới: Chủ nghĩa tư bản chuyển sang giai đoạn đế quốc chủ nghĩa. Cách mạng Tháng Mười Nga (1917) thành công mở ra thời đại mới." },
+                    { id: "ch-2-sec-2", title: "2. Cơ sở lý luận", content: "- Giá trị truyền thống: Chủ nghĩa yêu nước (cốt lõi), tinh thần nhân ái, đoàn kết, tự cường.\n- Tinh hoa văn hóa nhân loại: Phương Đông (Nho giáo: tu dưỡng đạo đức; Phật giáo: từ bi hỷ xả; Lão giáo: khuyên con người hòa đồng thiên nhiên). Phương Tây (Tư tưởng tự do, bình đẳng, bác ái của Đại CM Pháp, Mỹ).\n- Chủ nghĩa Mác - Lênin: Là cơ sở lý luận quyết định bước phát triển về chất, chuyển từ người yêu nước thành người cộng sản." },
+                    { id: "ch-2-sec-3", title: "3. Quá trình hình thành & phát triển", content: "- Trước 5/6/1911: Hình thành tư tưởng yêu nước, chí hướng cứu nước mới.\n- 1911 - 1920: Dần dần hình thành tư tưởng cứu nước, giải phóng dân tộc theo con đường CMVS (Đánh dấu bằng việc đọc Sơ thảo Luận cương của Lênin 7/1920).\n- 1920 - 1930: Hình thành những nội dung cơ bản tư tưởng về CMVN (Thể hiện qua Cương lĩnh chính trị đầu tiên 1930).\n- 1930 - 1941: Vượt qua thử thách, giữ vững đường lối.\n- 1941 - 1969: Phát triển, hoàn thiện, soi đường cho sự nghiệp cách mạng." }
+                ],
+                summary: "Sự kết hợp hoàn hảo giữa điều kiện thực tiễn, nền tảng lý luận mác-xít cùng nhãn quan chiến lược chủ quan đã nhào nặn nên hệ thống tư tưởng cứu nước."
+            },
+            {
+                id: "chapter-3", number: 3,
+                title: "Độc lập dân tộc và chủ nghĩa xã hội",
+                intro: "Luận điểm cốt lõi nhất của cách mạng Việt Nam: Độc lập dân tộc gắn liền với định hướng đi lên chủ nghĩa xã hội.",
+                objectives: [
+                    "Bản chất độc lập dân tộc thực chất, hoàn toàn và triệt để.",
+                    "Xác định con đường CMGPDT phải đi theo con đường Cách mạng Vô sản.",
+                    "Hiểu mối quan hệ biện chứng: ĐLDT là tiền đề, CNXH là điều kiện bảo đảm."
+                ],
+                sections: [
+                    { id: "ch-3-sec-1", title: "1. Về Độc lập dân tộc", content: "- Là quyền thiêng liêng, bất khả xâm phạm.\n- Độc lập phải gắn liền với tự do, cơm no, áo ấm và hạnh phúc của nhân dân (Độc lập mà dân không hưởng hạnh phúc tự do thì chẳng có ý nghĩa gì).\n- Độc lập phải là nền độc lập thật sự, hoàn toàn và triệt để; gắn liền với thống nhất và toàn vẹn lãnh thổ." },
+                    { id: "ch-3-sec-2", title: "2. Về Cách mạng giải phóng dân tộc", content: "Muốn cứu nước và GPDT không có con đường nào khác ngoài con đường cách mạng vô sản. CMGPDT phải do Đảng Cộng sản lãnh đạo; dựa trên lực lượng đại đoàn kết toàn dân (lấy liên minh công-nông làm nền tảng); cần chủ động, sáng tạo và phải được tiến hành bằng phương pháp bạo lực cách mạng." },
+                    { id: "ch-3-sec-3", title: "3. Mối quan hệ ĐLDT và CNXH", content: "- Độc lập dân tộc là cơ sở, tiền đề để tiến lên xây dựng CNXH.\n- Xây dựng CNXH là điều kiện tiên quyết, vững chắc nhất để bảo đảm nền độc lập dân tộc vĩnh viễn, triệt để." }
+                ],
+                summary: "Độc lập dân tộc gắn liền chủ nghĩa xã hội là sợi chỉ đỏ xuyên suốt, bảo đảm thắng lợi cho mọi giai đoạn phát triển lịch sử Việt Nam."
+            },
+            {
+                id: "chapter-4", number: 4,
+                title: "Về Đảng Cộng sản VN và Nhà nước của nhân dân",
+                intro: "Nguyên tắc xây dựng Đảng kiểu mới trong sạch vững mạnh và bản chất nhà nước pháp quyền nhân nghĩa xã hội chủ nghĩa.",
+                objectives: [
+                    "Vai trò tất yếu và tính chất của Đảng CS Việt Nam.",
+                    "Nguyên tắc tổ chức sinh hoạt Đảng (Tập trung dân chủ, Tự phê bình).",
+                    "Đặc trưng Nhà nước của dân, do dân, vì dân."
+                ],
+                sections: [
+                    { id: "ch-4-sec-1", title: "1. Về Đảng Cộng sản Việt Nam", content: "- Tính tất yếu: Đảng ra đời là sự kết hợp của Chủ nghĩa Mác-Lênin, phong trào công nhân và phong trào yêu nước.\n- Đảng phải là đạo đức, là văn minh.\n- Nguyên tắc xây dựng Đảng: Tập trung dân chủ; Tập thể lãnh đạo, cá nhân phụ trách; Tự phê bình và phê bình (như rửa mặt hằng ngày); Kỷ luật nghiêm minh, tự giác; Đoàn kết thống nhất." },
+                    { id: "ch-4-sec-2", title: "2. Về Nhà nước", content: "- Bản chất: Là nhà nước của nhân dân (quyền lực tối cao thuộc về dân), do nhân dân (dân bầu ra, kiểm soát), vì nhân dân (phục vụ lợi ích của dân).\n- Nhà nước pháp quyền: Hợp hiến, hợp pháp; Thượng tôn pháp luật nhưng mang tính 'Pháp quyền nhân nghĩa' (pháp luật có tính nhân văn, khuyến thiện).\n- Nhà nước trong sạch: Kiên quyết phòng chống 'giặc nội xâm' (tham ô, lãng phí, quan liêu)." }
+                ],
+                summary: "Một Đảng cầm quyền đạo đức, văn minh và một Nhà nước pháp quyền của nhân dân bảo đảm sự phát triển bền vững."
+            },
+            {
+                id: "chapter-5", number: 5,
+                title: "Đại đoàn kết toàn dân tộc và đoàn kết quốc tế",
+                intro: "Chiến lược tập hợp lực lượng cách mạng nhằm tạo ra sức mạnh tổng hợp chiến thắng mọi kẻ thù.",
+                objectives: [
+                    "Đại đoàn kết là chiến lược sống còn, mục tiêu hàng đầu.",
+                    "Hiểu hình thức tổ chức là Mặt trận dân tộc thống nhất.",
+                    "Nguyên tắc đoàn kết quốc tế kết hợp sức mạnh thời đại."
+                ],
+                sections: [
+                    { id: "ch-5-sec-1", title: "1. Đại đoàn kết toàn dân tộc", content: "- Là vấn đề có ý nghĩa chiến lược, quyết định thành công ('Đoàn kết, đoàn kết, đại đoàn kết - Thành công, thành công, đại thành công').\n- Lực lượng: Toàn thể nhân dân, không phân biệt giai cấp, tôn giáo. Nền tảng là liên minh Công - Nông - Trí thức.\n- Hình thức tổ chức: Mặt trận dân tộc thống nhất (phải đặt dưới sự lãnh đạo của Đảng, xuất phát từ mục tiêu vì nước vì dân)." },
+                    { id: "ch-5-sec-2", title: "2. Đoàn kết quốc tế", content: "- Mục đích: Kết hợp sức mạnh dân tộc (nội lực) với sức mạnh thời đại (ngoại lực) tạo sức mạnh tổng hợp.\n- Nguyên tắc: 'Làm bạn với tất cả mọi nước dân chủ và không gây thù oán với một ai'. Hợp tác trên cơ sở tôn trọng độc lập chủ quyền, bình đẳng, cùng có lợi, không can thiệp nội bộ." }
+                ],
+                summary: "Đại đoàn kết toàn dân tộc kết hợp đoàn kết quốc tế tạo thành nguồn sức mạnh vô địch vượt qua mọi khó khăn."
+            },
+            {
+                id: "chapter-6", number: 6,
+                title: "Về văn hóa, đạo đức, con người",
+                intro: "Hệ thống quan điểm về xây dựng nền văn hóa mới văn minh, đạo đức cách mạng cần kiệm liêm chính và chiến lược con người.",
+                objectives: [
+                    "Bốn chuẩn mực đạo đức nền tảng của người cách mạng.",
+                    "Vai trò 'soi đường' của văn hóa.",
+                    "Chiến lược 'trồng người' là trọng tâm xây dựng CNXH."
+                ],
+                sections: [
+                    { id: "ch-6-sec-1", title: "1. Về Văn hóa", content: "- Văn hóa không thể đứng ngoài mà phải ở trong kinh tế và chính trị.\n- Vai trò: 'Văn hóa phải soi đường cho quốc dân đi'.\n- Tính chất nền văn hóa mới: Dân tộc, Khoa học, Đại chúng." },
+                    { id: "ch-6-sec-2", title: "2. Về Đạo đức cách mạng", content: "- Là cái gốc của người CM (như sông có nguồn, cây có gốc).\n- 4 chuẩn mực cốt lõi:\n  + Trung với nước, hiếu với dân.\n  + Cần, Kiệm, Liêm, Chính.\n  + Thương yêu con người.\n  + Tinh thần quốc tế trong sáng.\n- Nguyên tắc rèn luyện: Nói đi đôi với làm; Xây đi đôi với chống (chống chủ nghĩa cá nhân); Tu dưỡng đạo đức suốt đời." },
+                    { id: "ch-6-sec-3", title: "3. Về Con người", content: "- Con người là vốn quý nhất, nhân tố quyết định thành bại của cách mạng.\n- 'Vì lợi ích mười năm thì phải trồng cây, vì lợi ích trăm năm thì phải trồng người'. Xây dựng con người vừa là mục tiêu, vừa là động lực của CNXH." }
+                ],
+                summary: "Nhân sinh quan đạo đức và tư duy văn hóa tiến bộ tạo nền tảng nhân cách phát triển toàn diện bền vững cho con người mới."
+            }
+        ];
+
+        // --- EXPANDED FLASHCARDS ---
+        const flashcardsData = [
+    {
+        "id": 1,
+        "chapterId": "Chương 1",
+        "concept": "Định nghĩa TT HCM (ĐH XI)",
+        "definition": "Hệ thống quan điểm toàn diện sâu sắc về CMVN, là kết quả vận dụng sáng tạo chủ nghĩa Mác-Lênin."
+    },
+    {
+        "id": 2,
+        "chapterId": "Chương 1",
+        "concept": "Định nghĩa TT HCM (ĐH XI - phần 2)",
+        "definition": "Kế thừa giá trị truyền thống dân tộc, tiếp thu tinh hoa văn hóa nhân loại."
+    },
+    {
+        "id": 3,
+        "chapterId": "Chương 1",
+        "concept": "Định nghĩa TT HCM (ĐH XI - phần 3)",
+        "definition": "Là tài sản tinh thần vô cùng to lớn và quý giá của Đảng và dân tộc ta, soi đường cho cách mạng."
+    },
+    {
+        "id": 4,
+        "chapterId": "Chương 1",
+        "concept": "Đại hội VII (1991)",
+        "definition": "Lần đầu tiên Đảng khẳng định lấy Chủ nghĩa Mác-Lênin và TT HCM làm nền tảng tư tưởng, kim chỉ nam."
+    },
+    {
+        "id": 5,
+        "chapterId": "Chương 1",
+        "concept": "Đại hội II (1951)",
+        "definition": "Khẳng định: Đường lối chính trị, nền nếp làm việc và đạo đức cách mạng của Đảng là của Chủ tịch Hồ Chí Minh."
+    },
+    {
+        "id": 6,
+        "chapterId": "Chương 1",
+        "concept": "Đối tượng nghiên cứu (1)",
+        "definition": "Toàn bộ những quan điểm của Hồ Chí Minh thể hiện trong di sản của Người."
+    },
+    {
+        "id": 7,
+        "chapterId": "Chương 1",
+        "concept": "Đối tượng nghiên cứu (2)",
+        "definition": "Là quá trình hệ thống quan điểm của HCM vận động, hiện thực hóa trong thực tiễn CMVN."
+    },
+    {
+        "id": 8,
+        "chapterId": "Chương 1",
+        "concept": "Mục tiêu CMVN theo TT HCM",
+        "definition": "Xây dựng nước VN hòa bình, thống nhất, độc lập, dân chủ, giàu mạnh; đóng góp vào CM thế giới."
+    },
+    {
+        "id": 9,
+        "chapterId": "Chương 1",
+        "concept": "Con đường phát triển của dân tộc",
+        "definition": "Độc lập dân tộc gắn liền với chủ nghĩa xã hội."
+    },
+    {
+        "id": 10,
+        "chapterId": "Chương 1",
+        "concept": "Lực lượng cách mạng",
+        "definition": "Toàn thể nhân dân Việt Nam yêu nước."
+    },
+    {
+        "id": 11,
+        "chapterId": "Chương 1",
+        "concept": "Phương pháp luận: Thống nhất tính đảng & khoa học",
+        "definition": "Đứng trên lập trường giai cấp công nhân, quán triệt chủ nghĩa Mác-Lênin nhưng phải khách quan, khoa học."
+    },
+    {
+        "id": 12,
+        "chapterId": "Chương 1",
+        "concept": "Phương pháp luận: Thống nhất lý luận & thực tiễn",
+        "definition": "Lý luận như kim chỉ nam; thực tiễn là thước đo. Có lý luận mà không có thực tiễn là lý luận suông."
+    },
+    {
+        "id": 13,
+        "chapterId": "Chương 1",
+        "concept": "Bệnh khinh lý luận",
+        "definition": "Có kinh nghiệm mà không có lý luận, như một mắt sáng một mắt mờ, làm việc gì cũng lúng túng."
+    },
+    {
+        "id": 14,
+        "chapterId": "Chương 1",
+        "concept": "Quan điểm lịch sử - cụ thể",
+        "definition": "Xem xét sự vật trong mối liên hệ lịch sử cơ bản, sinh ra thế nào, phát triển ra sao trong hoàn cảnh cụ thể."
+    },
+    {
+        "id": 15,
+        "chapterId": "Chương 1",
+        "concept": "Quan điểm toàn diện & hệ thống",
+        "definition": "Tư tưởng HCM là một chỉnh thể, các quan điểm gắn kết tất yếu xung quanh hạt nhân: độc lập, tự do, dân chủ."
+    },
+    {
+        "id": 16,
+        "chapterId": "Chương 1",
+        "concept": "Quan điểm kế thừa & phát triển",
+        "definition": "Không ngừng vận dụng, đổi mới tư tưởng trong điều kiện lịch sử mới."
+    },
+    {
+        "id": 17,
+        "chapterId": "Chương 1",
+        "concept": "Phương pháp logic & lịch sử",
+        "definition": "Logic tìm ra bản chất quy luật; Lịch sử xem xét diễn biến theo thời gian. Cần kết hợp chặt chẽ 2 PP này."
+    },
+    {
+        "id": 18,
+        "chapterId": "Chương 1",
+        "concept": "Phương pháp phân tích văn bản",
+        "definition": "Kết hợp nghiên cứu văn bản (bài viết, bài nói) với nghiên cứu hoạt động thực tiễn của Người."
+    },
+    {
+        "id": 19,
+        "chapterId": "Chương 1",
+        "concept": "Phương pháp liên ngành",
+        "definition": "Sử dụng tri thức triết học, lịch sử, văn hóa, chính trị... để nghiên cứu toàn diện tư tưởng HCM."
+    },
+    {
+        "id": 20,
+        "chapterId": "Chương 1",
+        "concept": "Ý nghĩa học tập: Tư duy lý luận",
+        "definition": "Nâng cao năng lực phân tích giải quyết vấn đề thực tiễn, kiên định nền tảng tư tưởng của Đảng."
+    },
+    {
+        "id": 21,
+        "chapterId": "Chương 1",
+        "concept": "Ý nghĩa học tập: Đạo đức cách mạng",
+        "definition": "Tu dưỡng tình cảm, bồi dưỡng lòng yêu nước, chống lại chủ nghĩa cá nhân (giặc nội xâm)."
+    },
+    {
+        "id": 22,
+        "chapterId": "Chương 1",
+        "concept": "Ý nghĩa học tập: Phương pháp công tác",
+        "definition": "Vận dụng xây dựng phong cách tư duy, phong cách làm việc 'Dĩ bất biến ứng vạn biến'."
+    },
+    {
+        "id": 23,
+        "chapterId": "Chương 1",
+        "concept": "UNESCO tôn vinh (1987)",
+        "definition": "Tôn vinh HCM là 'Anh hùng giải phóng dân tộc, Nhà văn hóa kiệt xuất của Việt Nam' (kỷ niệm 100 năm ngày sinh 1990)."
+    },
+    {
+        "id": 24,
+        "chapterId": "Chương 1",
+        "concept": "Bộ Toàn tập HCM",
+        "definition": "Di sản văn bản của Người hiện được tập hợp thành bộ Hồ Chí Minh Toàn tập gồm 15 tập (bản 2011)."
+    },
+    {
+        "id": 25,
+        "chapterId": "Chương 1",
+        "concept": "Thước đo hiệu quả hành động",
+        "definition": "Mọi tư duy, hành động của tổ chức cách mạng phải mang lại quyền lợi chính đáng cho nhân dân."
+    },
+    {
+        "id": 26,
+        "chapterId": "Chương 1",
+        "concept": "Đại hội IX (2001)",
+        "definition": "Bổ sung nhận thức: TT HCM kế thừa giá trị dân tộc, tiếp thu tinh hoa văn hóa nhân loại."
+    },
+    {
+        "id": 27,
+        "chapterId": "Chương 1",
+        "concept": "Văn kiện Đại hội XII (2016)",
+        "definition": "Nhấn mạnh: Kiên định CN Mác-Lênin, TT Hồ Chí Minh, vận dụng sáng tạo phù hợp thực tiễn."
+    },
+    {
+        "id": 28,
+        "chapterId": "Chương 1",
+        "concept": "Quan hệ TT HCM với Mác-Lênin",
+        "definition": "TT HCM là sự vận dụng, bổ sung, phát triển sáng tạo CN Mác-Lênin vào điều kiện Việt Nam."
+    },
+    {
+        "id": 29,
+        "chapterId": "Chương 1",
+        "concept": "Tính chất hệ thống",
+        "definition": "TT HCM không phải là những bài viết chắp vá mà là một hệ thống lý luận khoa học, chặt chẽ."
+    },
+    {
+        "id": 30,
+        "chapterId": "Chương 1",
+        "concept": "Môn học TT HCM",
+        "definition": "Là một phân môn của chuyên ngành Hồ Chí Minh học (nằm trong ngành Khoa học chính trị)."
+    },
+    {
+        "id": 31,
+        "chapterId": "Chương 1",
+        "concept": "Đại hội IV (1976)",
+        "definition": "Đánh giá công lao của Bác: Người sáng lập và rèn luyện Đảng ta, người khai sinh nền Dân chủ Cộng hòa."
+    },
+    {
+        "id": 32,
+        "chapterId": "Chương 1",
+        "concept": "Cơ sở hình thành TT HCM",
+        "definition": "Cơ sở thực tiễn (VN & thế giới), Cơ sở lý luận (truyền thống, văn hóa, Mác-Lênin), Nhân tố chủ quan."
+    },
+    {
+        "id": 33,
+        "chapterId": "Chương 1",
+        "concept": "Giá trị cốt lõi của TT HCM",
+        "definition": "Giải phóng dân tộc, giải phóng giai cấp, giải phóng xã hội, giải phóng con người."
+    },
+    {
+        "id": 34,
+        "chapterId": "Chương 1",
+        "concept": "Chỉ dẫn cho công việc thực tế",
+        "definition": "Lý luận đem thực tế trong lịch sử, kinh nghiệm, tranh đấu so sánh, rút ra kết luận."
+    },
+    {
+        "id": 35,
+        "chapterId": "Chương 2",
+        "concept": "Cơ sở thực tiễn cuối TK 19",
+        "definition": "Việt Nam từ nước phong kiến độc lập trở thành nước thuộc địa nửa phong kiến dưới ách thực dân Pháp."
+    },
+    {
+        "id": 36,
+        "chapterId": "Chương 2",
+        "concept": "Mâu thuẫn xã hội cơ bản",
+        "definition": "Toàn thể dân tộc VN với Đế quốc Pháp; và Nông dân với Địa chủ phong kiến."
+    },
+    {
+        "id": 37,
+        "chapterId": "Chương 2",
+        "concept": "Sự thất bại của các phong trào",
+        "definition": "Cần Vương, Đông Du, Duy Tân... thất bại do thiếu đường lối đúng đắn và giai cấp lãnh đạo tiên tiến."
+    },
+    {
+        "id": 38,
+        "chapterId": "Chương 2",
+        "concept": "Bối cảnh quốc tế (Chủ nghĩa Tư bản)",
+        "definition": "CNTB chuyển sang giai đoạn đế quốc chủ nghĩa, tăng cường bóc lột thuộc địa."
+    },
+    {
+        "id": 39,
+        "chapterId": "Chương 2",
+        "concept": "Cách mạng Tháng Mười Nga (1917)",
+        "definition": "Thắng lợi mở ra thời đại mới: Cổ vũ phong trào giải phóng dân tộc trên toàn thế giới."
+    },
+    {
+        "id": 40,
+        "chapterId": "Chương 2",
+        "concept": "Giá trị truyền thống dân tộc",
+        "definition": "Chủ nghĩa yêu nước là cốt lõi, là dòng chảy xuyên suốt và là động lực thúc đẩy HCM ra đi tìm đường cứu nước."
+    },
+    {
+        "id": 41,
+        "chapterId": "Chương 2",
+        "concept": "Tinh thần dân tộc khác",
+        "definition": "Đoàn kết, nhân ái, khoan dung, cần cù, dũng cảm, lạc quan, vì nghĩa thương người."
+    },
+    {
+        "id": 42,
+        "chapterId": "Chương 2",
+        "concept": "Tinh hoa văn hóa phương Đông: Nho giáo",
+        "definition": "Bác kế thừa triết lý hành động, lý tưởng xã hội đại đồng, tu dưỡng đạo đức cá nhân (Cần, Kiệm, Liêm, Chính)."
+    },
+    {
+        "id": 43,
+        "chapterId": "Chương 2",
+        "concept": "Tinh hoa văn hóa phương Đông: Phật giáo",
+        "definition": "Kế thừa tư tưởng từ bi, vị tha, yêu thương con người, bình đẳng, sống hòa đồng."
+    },
+    {
+        "id": 44,
+        "chapterId": "Chương 2",
+        "concept": "Tinh hoa văn hóa phương Đông: Lão giáo",
+        "definition": "Kế thừa tư tưởng sống gắn bó với thiên nhiên, ít lòng tham muốn vật chất (thoát ràng buộc cá nhân)."
+    },
+    {
+        "id": 45,
+        "chapterId": "Chương 2",
+        "concept": "Tư tưởng Tôn Trung Sơn",
+        "definition": "Kế thừa và phát triển học thuyết Tam dân: Dân tộc độc lập, Dân quyền tự do, Dân sinh hạnh phúc."
+    },
+    {
+        "id": 46,
+        "chapterId": "Chương 2",
+        "concept": "Tinh hoa văn hóa phương Tây",
+        "definition": "Tiếp thu tư tưởng Tự do - Bình đẳng - Bác ái của Đại CM Pháp; quyền sống, quyền tự do của CM Mỹ."
+    },
+    {
+        "id": 47,
+        "chapterId": "Chương 2",
+        "concept": "Chủ nghĩa Mác - Lênin",
+        "definition": "Cơ sở lý luận quyết định bước phát triển về chất, đem lại phương pháp luận khoa học triệt để cho HCM."
+    },
+    {
+        "id": 48,
+        "chapterId": "Chương 2",
+        "concept": "Nhân tố chủ quan: Phẩm chất",
+        "definition": "Hoài bão cứu nước, tư duy độc lập tự chủ sáng tạo, năng lực tổng kết thực tiễn, yêu nước thương dân."
+    },
+    {
+        "id": 49,
+        "chapterId": "Chương 2",
+        "concept": "Thời kỳ trước 5/6/1911",
+        "definition": "Hình thành tư tưởng yêu nước và có chí hướng tìm con đường cứu nước mới (khác các bậc tiền bối)."
+    },
+    {
+        "id": 50,
+        "chapterId": "Chương 2",
+        "concept": "Thời kỳ 1911 - 1920",
+        "definition": "Dần hình thành tư tưởng cứu nước, giải phóng dân tộc theo con đường cách mạng vô sản."
+    },
+    {
+        "id": 51,
+        "chapterId": "Chương 2",
+        "concept": "Bản Yêu sách 8 điểm (1919)",
+        "definition": "Gửi tới Hội nghị Versailles (với tên Nguyễn Ái Quốc), đòi quyền tự quyết, bình đẳng cho dân tộc."
+    },
+    {
+        "id": 52,
+        "chapterId": "Chương 2",
+        "concept": "Tháng 7/1920",
+        "definition": "Đọc 'Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và thuộc địa' của Lênin. Tìm ra con đường cứu nước."
+    },
+    {
+        "id": 53,
+        "chapterId": "Chương 2",
+        "concept": "Tháng 12/1920",
+        "definition": "Dự Đại hội Tours, bỏ phiếu gia nhập Quốc tế III, tham gia sáng lập Đảng CS Pháp."
+    },
+    {
+        "id": 54,
+        "chapterId": "Chương 2",
+        "concept": "Thời kỳ 1920 - 1930",
+        "definition": "Hình thành những nội dung cơ bản tư tưởng về cách mạng Việt Nam."
+    },
+    {
+        "id": 55,
+        "chapterId": "Chương 2",
+        "concept": "Hội Việt Nam CM Thanh niên (1925)",
+        "definition": "Tổ chức tiền thân của Đảng, chuẩn bị về chính trị, tư tưởng, tổ chức cho việc lập Đảng."
+    },
+    {
+        "id": 56,
+        "chapterId": "Chương 2",
+        "concept": "Tác phẩm Bản án CĐ thực dân Pháp (1925)",
+        "definition": "Lên án chủ nghĩa thực dân, thức tỉnh nhân dân thuộc địa."
+    },
+    {
+        "id": 57,
+        "chapterId": "Chương 2",
+        "concept": "Tác phẩm Đường Kách Mệnh (1927)",
+        "definition": "Vạch rõ đường lối, lực lượng, phương pháp cách mạng; nhấn mạnh vai trò của Đảng và đạo đức cách mạng."
+    },
+    {
+        "id": 58,
+        "chapterId": "Chương 2",
+        "concept": "Hội nghị thành lập Đảng (1930)",
+        "definition": "Thông qua Cương lĩnh chính trị đầu tiên do Bác soạn thảo, đánh dấu sự hình thành cơ bản TT HCM."
+    },
+    {
+        "id": 59,
+        "chapterId": "Chương 2",
+        "concept": "Thời kỳ 1930 - 1941",
+        "definition": "Vượt qua thử thách (bị Quốc tế CS hiểu lầm là 'hữu khuynh', 'dân tộc chủ nghĩa'), giữ vững đường lối."
+    },
+    {
+        "id": 60,
+        "chapterId": "Chương 2",
+        "concept": "Hội nghị TW 8 (5/1941)",
+        "definition": "Bác chủ trì, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu cao hơn hết thảy, lập Mặt trận Việt Minh."
+    },
+    {
+        "id": 61,
+        "chapterId": "Chương 2",
+        "concept": "Thời kỳ 1941 - 1969",
+        "definition": "Tư tưởng HCM tiếp tục phát triển, hoàn thiện, soi đường cho sự nghiệp cách mạng (KCCP & KCCM)."
+    },
+    {
+        "id": 62,
+        "chapterId": "Chương 2",
+        "concept": "Tuyên ngôn Độc lập (2/9/1945)",
+        "definition": "Nâng tầm quyền con người thành quyền độc lập của các dân tộc; khai sinh nước VNDCCH."
+    },
+    {
+        "id": 63,
+        "chapterId": "Chương 2",
+        "concept": "Sách lược 'Dĩ bất biến ứng vạn biến'",
+        "definition": "Cương quyết về nguyên tắc (độc lập), linh hoạt về sách lược (hòa hoãn) trong giai đoạn 1945-1946."
+    },
+    {
+        "id": 64,
+        "chapterId": "Chương 2",
+        "concept": "Chân lý thời đại (1966)",
+        "definition": "'Không có gì quý hơn độc lập tự do' - Lời kêu gọi chống Mỹ cứu nước."
+    },
+    {
+        "id": 65,
+        "chapterId": "Chương 2",
+        "concept": "Ảnh hưởng của gia đình",
+        "definition": "Cụ Phó bảng Nguyễn Sinh Sắc truyền dạy lòng yêu nước, thương dân; Cụ Hoàng Thị Loan dạy sự cần mẫn."
+    },
+    {
+        "id": 66,
+        "chapterId": "Chương 2",
+        "concept": "Nhận xét về Phan Bội Châu",
+        "definition": "Bác khâm phục nhưng không tán thành việc 'cầu viện Nhật Bản' (coi như đuổi hổ cửa trước rước sói cửa sau)."
+    },
+    {
+        "id": 67,
+        "chapterId": "Chương 2",
+        "concept": "Bản chất CNTB theo HCM",
+        "definition": "Ví như 'con đỉa 2 vòi', một vòi hút máu vô sản chính quốc, một vòi hút máu nhân dân thuộc địa."
+    },
+    {
+        "id": 68,
+        "chapterId": "Chương 2",
+        "concept": "Nhận thức về cách mạng tư sản Mỹ/Pháp",
+        "definition": "Là cách mạng 'không đến nơi', vì nhân dân vẫn bị bóc lột, quyền lực nằm trong tay tư bản."
+    },
+    {
+        "id": 69,
+        "chapterId": "Chương 3",
+        "concept": "Vấn đề Độc lập dân tộc (ĐLDT)",
+        "definition": "Là quyền thiêng liêng, bất khả xâm phạm của tất cả các dân tộc."
+    },
+    {
+        "id": 70,
+        "chapterId": "Chương 3",
+        "concept": "Bản chất ĐLDT",
+        "definition": "Phải gắn liền với tự do, cơm no, áo ấm, hạnh phúc của nhân dân. Độc lập thật sự, hoàn toàn và triệt để."
+    },
+    {
+        "id": 71,
+        "chapterId": "Chương 3",
+        "concept": "Câu nói về Độc lập và Hạnh phúc",
+        "definition": "'Nước độc lập mà dân không hưởng hạnh phúc tự do, thì độc lập cũng chẳng có nghĩa lý gì'."
+    },
+    {
+        "id": 72,
+        "chapterId": "Chương 3",
+        "concept": "ĐLDT gắn liền thống nhất đất nước",
+        "definition": "Miền Nam là máu của máu Việt Nam, thịt của thịt Việt Nam. Sông có thể cạn núi có thể mòn..."
+    },
+    {
+        "id": 73,
+        "chapterId": "Chương 3",
+        "concept": "Con đường CMGPDT",
+        "definition": "Chỉ có con đường cách mạng vô sản. (Không đi theo con đường phong kiến hay tư bản)."
+    },
+    {
+        "id": 74,
+        "chapterId": "Chương 3",
+        "concept": "Mục tiêu của CMGPDT",
+        "definition": "Đánh đổ ách thống trị của thực dân, giành độc lập dân tộc, thiết lập chính quyền của nhân dân."
+    },
+    {
+        "id": 75,
+        "chapterId": "Chương 3",
+        "concept": "Lực lượng của CMGPDT",
+        "definition": "Là sự nghiệp của toàn dân (sĩ, nông, công, thương), trong đó Công - Nông là gốc của cách mạng."
+    },
+    {
+        "id": 76,
+        "chapterId": "Chương 3",
+        "concept": "Quan hệ CM thuộc địa & CM chính quốc",
+        "definition": "Có quan hệ bình đẳng, không lệ thuộc. CM thuộc địa có thể nổ ra và giành thắng lợi TRƯỚC CM vô sản ở chính quốc."
+    },
+    {
+        "id": 77,
+        "chapterId": "Chương 3",
+        "concept": "Vai trò lãnh đạo CMGPDT",
+        "definition": "Cách mạng muốn thắng lợi phải có Đảng của giai cấp công nhân lãnh đạo."
+    },
+    {
+        "id": 78,
+        "chapterId": "Chương 3",
+        "concept": "Phương pháp bạo lực cách mạng",
+        "definition": "Dùng bạo lực để chống lại bạo lực phản cách mạng của kẻ thù để giành và giữ chính quyền."
+    },
+    {
+        "id": 79,
+        "chapterId": "Chương 3",
+        "concept": "Hình thức của bạo lực CM",
+        "definition": "Kết hợp đấu tranh chính trị của quần chúng với đấu tranh vũ trang."
+    },
+    {
+        "id": 80,
+        "chapterId": "Chương 3",
+        "concept": "ĐLDT và CNXH",
+        "definition": "Có mối quan hệ biện chứng: ĐLDT là tiền đề tiến lên CNXH; CNXH là điều kiện bảo đảm vững chắc nền ĐLDT."
+    },
+    {
+        "id": 81,
+        "chapterId": "Chương 3",
+        "concept": "Bản chất Chủ nghĩa Xã hội",
+        "definition": "Chế độ do nhân dân làm chủ, có kinh tế phát triển cao, không còn bóc lột, văn hóa đạo đức phát triển, công bằng hợp lý."
+    },
+    {
+        "id": 82,
+        "chapterId": "Chương 3",
+        "concept": "Mục tiêu chính trị của CNXH",
+        "definition": "Xây dựng và phát huy quyền làm chủ của nhân dân. Mọi quyền lực thuộc về nhân dân."
+    },
+    {
+        "id": 83,
+        "chapterId": "Chương 3",
+        "concept": "Mục tiêu kinh tế của CNXH",
+        "definition": "Xây dựng nền kinh tế phát triển cao gắn với sự phát triển khoa học - kỹ thuật tiên tiến."
+    },
+    {
+        "id": 84,
+        "chapterId": "Chương 3",
+        "concept": "Động lực quan trọng nhất của CNXH",
+        "definition": "Là con người. Lợi ích của dân, sức mạnh đoàn kết của dân là động lực quyết định."
+    },
+    {
+        "id": 85,
+        "chapterId": "Chương 3",
+        "concept": "Trở lực của CNXH",
+        "definition": "Chủ nghĩa cá nhân, tham ô, lãng phí, quan liêu, bảo thủ, rụt rè, chia rẽ."
+    },
+    {
+        "id": 86,
+        "chapterId": "Chương 3",
+        "concept": "Tính chất Thời kỳ quá độ",
+        "definition": "Là cuộc đấu tranh giai cấp gay go, phức tạp, lâu dài giữa cái cũ và cái mới."
+    },
+    {
+        "id": 87,
+        "chapterId": "Chương 3",
+        "concept": "Đặc điểm Thời kỳ quá độ ở VN",
+        "definition": "Từ một nước nông nghiệp lạc hậu tiến thẳng lên CNXH không phải kinh qua giai đoạn phát triển TBCN."
+    },
+    {
+        "id": 88,
+        "chapterId": "Chương 3",
+        "concept": "Nhiệm vụ trọng tâm TK quá độ",
+        "definition": "Cải tạo cái cũ, xây dựng cái mới; trong đó xây dựng nền tảng vật chất, kỹ thuật (công nghiệp hóa) là then chốt."
+    },
+    {
+        "id": 89,
+        "chapterId": "Chương 3",
+        "concept": "Động lực phát triển: Sự lãnh đạo của Đảng",
+        "definition": "Đảng là người cầm lái, hạt nhân quy tụ sức mạnh khối đại đoàn kết để xây dựng CNXH."
+    },
+    {
+        "id": 90,
+        "chapterId": "Chương 3",
+        "concept": "Bước đi lên CNXH",
+        "definition": "Phải làm tuần tự, dần dần, từ thấp đến cao, không được nôn nóng, chủ quan, đốt cháy giai đoạn."
+    },
+    {
+        "id": 91,
+        "chapterId": "Chương 3",
+        "concept": "Quan điểm về giải phóng",
+        "definition": "Giải phóng dân tộc trước, tạo tiền đề để giải phóng giai cấp, giải phóng xã hội, giải phóng con người."
+    },
+    {
+        "id": 92,
+        "chapterId": "Chương 3",
+        "concept": "Động lực bên ngoài của CNXH",
+        "definition": "Sự kết hợp sức mạnh thời đại, đoàn kết quốc tế, tranh thủ sự ủng hộ của các nước anh em."
+    },
+    {
+        "id": 93,
+        "chapterId": "Chương 3",
+        "concept": "Văn hóa trong CNXH",
+        "definition": "Phải triệt để tẩy trừ mọi di tích thuộc địa và ảnh hưởng nô dịch; xây dựng văn hóa mới tự do, tiến bộ."
+    },
+    {
+        "id": 94,
+        "chapterId": "Chương 3",
+        "concept": "Kinh tế trong TK quá độ",
+        "definition": "Tồn tại nhiều thành phần kinh tế, trong đó kinh tế quốc doanh đóng vai trò chủ đạo."
+    },
+    {
+        "id": 95,
+        "chapterId": "Chương 3",
+        "concept": "So sánh ĐLDT theo Tư bản và Vô sản",
+        "definition": "Tư sản: Độc lập giả hiệu, dân nghèo vẫn bị bóc lột. Vô sản: Độc lập triệt để, dân làm chủ, xóa bỏ bóc lột."
+    },
+    {
+        "id": 96,
+        "chapterId": "Chương 3",
+        "concept": "Lý luận về bạo lực CM của Mác-Lênin",
+        "definition": "Bạo lực là 'bà đỡ' của mọi chế độ xã hội cũ đang thai nghén chế độ mới."
+    },
+    {
+        "id": 97,
+        "chapterId": "Chương 3",
+        "concept": "Định hướng tiến lên CNXH",
+        "definition": "Dựa vào đặc điểm lịch sử của nước ta, không rập khuôn máy móc mô hình của Liên Xô hay Trung Quốc."
+    },
+    {
+        "id": 98,
+        "chapterId": "Chương 3",
+        "concept": "Kẻ thù nguy hiểm nhất của CNXH",
+        "definition": "Chủ nghĩa cá nhân - thứ vi trùng đẻ ra hàng trăm thứ bệnh nguy hiểm khác."
+    },
+    {
+        "id": 99,
+        "chapterId": "Chương 3",
+        "concept": "CM Tháng Tám 1945",
+        "definition": "Là minh chứng lịch sử cho sự sáng tạo về bạo lực CM: kết hợp chính trị và vũ trang, chớp đúng thời cơ."
+    },
+    {
+        "id": 100,
+        "chapterId": "Chương 3",
+        "concept": "Luận điểm 'con chim 2 cánh'",
+        "definition": "Ám chỉ mối quan hệ mật thiết giữa cách mạng vô sản ở chính quốc và cách mạng ở thuộc địa."
+    },
+    {
+        "id": 101,
+        "chapterId": "Chương 3",
+        "concept": "Tính sáng tạo của TT HCM về CNXH",
+        "definition": "Cách diễn đạt dung dị, dễ hiểu, hướng tới mục tiêu thực dụng: làm cho dân có ăn, có mặc, có chỗ ở, được học hành."
+    },
+    {
+        "id": 102,
+        "chapterId": "Chương 3",
+        "concept": "Thắng lợi trọn vẹn của ĐLDT",
+        "definition": "Phải gắn với tự quyết dân tộc, tự trị nội bộ, không có quân đội nước ngoài đồn trú trên lãnh thổ."
+    },
+    {
+        "id": 103,
+        "chapterId": "Chương 4",
+        "concept": "Quy luật ra đời của Đảng CS Việt Nam",
+        "definition": "Là sự kết hợp: Chủ nghĩa Mác-Lênin + Phong trào công nhân + Phong trào yêu nước."
+    },
+    {
+        "id": 104,
+        "chapterId": "Chương 4",
+        "concept": "Vai trò của Đảng",
+        "definition": "Là nhân tố quyết định hàng đầu mọi thắng lợi của cách mạng Việt Nam."
+    },
+    {
+        "id": 105,
+        "chapterId": "Chương 4",
+        "concept": "Bản chất giai cấp của Đảng",
+        "definition": "Mang bản chất giai cấp công nhân. Đồng thời Đảng là đại biểu trung thành cho lợi ích của dân tộc."
+    },
+    {
+        "id": 106,
+        "chapterId": "Chương 4",
+        "concept": "Đảng là đạo đức, là văn minh",
+        "definition": "Đảng không có mục đích nào khác ngoài phụng sự Tổ quốc, phục vụ nhân dân; đảng viên phải mẫu mực."
+    },
+    {
+        "id": 107,
+        "chapterId": "Chương 4",
+        "concept": "Nguyên tắc: Tập trung dân chủ",
+        "definition": "Là nguyên tắc tổ chức cơ bản. Dân chủ để phát huy trí tuệ, tập trung để thống nhất ý chí và hành động."
+    },
+    {
+        "id": 108,
+        "chapterId": "Chương 4",
+        "concept": "Nguyên tắc: Tập thể lãnh đạo, cá nhân phụ trách",
+        "definition": "Tránh độc đoán chuyên quyền (nếu cá nhân lãnh đạo) và tránh đùn đẩy trách nhiệm (nếu chỉ tập thể)."
+    },
+    {
+        "id": 109,
+        "chapterId": "Chương 4",
+        "concept": "Nguyên tắc: Tự phê bình và phê bình",
+        "definition": "Là quy luật phát triển của Đảng, là thang thuốc tốt nhất để chữa bệnh, làm thường xuyên như 'rửa mặt hằng ngày'."
+    },
+    {
+        "id": 110,
+        "chapterId": "Chương 4",
+        "concept": "Nguyên tắc: Kỷ luật nghiêm minh, tự giác",
+        "definition": "Đảng viên dù ở cương vị nào cũng phải tuân thủ kỷ luật Đảng, không có ngoại lệ."
+    },
+    {
+        "id": 111,
+        "chapterId": "Chương 4",
+        "concept": "Nguyên tắc: Đoàn kết thống nhất",
+        "definition": "Phải giữ gìn sự đoàn kết trong Đảng như 'giữ gìn con ngươi của mắt mình'."
+    },
+    {
+        "id": 112,
+        "chapterId": "Chương 4",
+        "concept": "Cán bộ, đảng viên là gì?",
+        "definition": "Là 'người đầy tớ thật trung thành của nhân dân', không phải là quan cách mạng để đè đầu cưỡi cổ dân."
+    },
+    {
+        "id": 113,
+        "chapterId": "Chương 4",
+        "concept": "Bản chất của Nhà nước Việt Nam",
+        "definition": "Nhà nước của nhân dân, do nhân dân, vì nhân dân; mang bản chất giai cấp công nhân."
+    },
+    {
+        "id": 114,
+        "chapterId": "Chương 4",
+        "concept": "Nhà nước Của nhân dân",
+        "definition": "Tất cả quyền lực trong nhà nước và trong xã hội đều thuộc về nhân dân."
+    },
+    {
+        "id": 115,
+        "chapterId": "Chương 4",
+        "concept": "Nhà nước Do nhân dân",
+        "definition": "Nhân dân lập ra nhà nước, bầu ra đại biểu, có quyền kiểm soát và bãi miễn nếu đại biểu không xứng đáng."
+    },
+    {
+        "id": 116,
+        "chapterId": "Chương 4",
+        "concept": "Nhà nước Vì nhân dân",
+        "definition": "Nhà nước phục vụ lợi ích và nguyện vọng chính đáng của nhân dân, không có đặc quyền đặc lợi."
+    },
+    {
+        "id": 117,
+        "chapterId": "Chương 4",
+        "concept": "Nhà nước Hợp hiến, hợp pháp",
+        "definition": "Nhà nước được tổ chức và vận hành theo Hiến pháp và pháp luật. (Bác chú trọng tổ chức Tổng tuyển cử 1946)."
+    },
+    {
+        "id": 118,
+        "chapterId": "Chương 4",
+        "concept": "Nhà nước Thượng tôn pháp luật",
+        "definition": "Quản lý xã hội bằng pháp luật, mọi người đều bình đẳng trước pháp luật."
+    },
+    {
+        "id": 119,
+        "chapterId": "Chương 4",
+        "concept": "Pháp quyền nhân nghĩa",
+        "definition": "Pháp luật có tính nhân văn, khuyến thiện, tôn trọng và bảo vệ quyền con người, kết hợp giáo dục đạo đức."
+    },
+    {
+        "id": 120,
+        "chapterId": "Chương 4",
+        "concept": "Chống 3 thứ 'Giặc nội xâm'",
+        "definition": "Tham ô, lãng phí, quan liêu. Chúng là bạn đồng minh của thực dân, phong kiến."
+    },
+    {
+        "id": 121,
+        "chapterId": "Chương 4",
+        "concept": "Quan liêu là gì?",
+        "definition": "Là xa rời quần chúng, không hiểu tâm tư nguyện vọng của dân, làm việc bàn giấy, mệnh lệnh."
+    },
+    {
+        "id": 122,
+        "chapterId": "Chương 4",
+        "concept": "Bản Hiến pháp đầu tiên",
+        "definition": "Hiến pháp 1946, do Chủ tịch Hồ Chí Minh làm Trưởng ban soạn thảo, mang đậm tính dân chủ và pháp quyền."
+    },
+    {
+        "id": 123,
+        "chapterId": "Chương 4",
+        "concept": "Cơ chế kiểm soát quyền lực",
+        "definition": "Nhân dân là chủ thể kiểm soát quyền lực Nhà nước. Dân có quyền phê bình, tố cáo quan chức sai phạm."
+    },
+    {
+        "id": 124,
+        "chapterId": "Chương 4",
+        "concept": "Mối quan hệ Đảng - Nhà nước",
+        "definition": "Đảng lãnh đạo Nhà nước thông qua đường lối, chủ trương và bằng sự gương mẫu của đảng viên."
+    },
+    {
+        "id": 125,
+        "chapterId": "Chương 4",
+        "concept": "Tính thống nhất bản chất giai cấp & dân tộc",
+        "definition": "Nhà nước bảo vệ lợi ích GCCN, đồng thời bảo vệ lợi ích toàn dân tộc, vì lợi ích 2 bên là thống nhất."
+    },
+    {
+        "id": 126,
+        "chapterId": "Chương 4",
+        "concept": "Văn kiện 'Sửa đổi lối làm việc' (1947)",
+        "definition": "Tác phẩm Bác viết để chấn chỉnh đạo đức, tác phong của cán bộ đảng viên, nhấn mạnh 12 điều tư cách Đảng."
+    },
+    {
+        "id": 127,
+        "chapterId": "Chương 4",
+        "concept": "Mục đích xây dựng Nhà nước",
+        "definition": "Việc gì có lợi cho dân phải hết sức làm, việc gì có hại cho dân phải hết sức tránh."
+    },
+    {
+        "id": 128,
+        "chapterId": "Chương 4",
+        "concept": "Quan điểm về pháp luật của TBCN",
+        "definition": "Bác cho rằng pháp luật tư sản bảo vệ kẻ bóc lột, còn pháp luật ta bảo vệ nhân dân lao động."
+    },
+    {
+        "id": 129,
+        "chapterId": "Chương 4",
+        "concept": "Dân chủ trực tiếp",
+        "definition": "Nhân dân trực tiếp quyết định công việc của quốc gia (VD: Trưng cầu dân ý)."
+    },
+    {
+        "id": 130,
+        "chapterId": "Chương 4",
+        "concept": "Dân chủ gián tiếp (Đại diện)",
+        "definition": "Nhân dân ủy quyền cho các đại biểu (Quốc hội, HĐND) thay mặt mình quản lý đất nước."
+    },
+    {
+        "id": 131,
+        "chapterId": "Chương 4",
+        "concept": "Đảng cầm quyền",
+        "definition": "Đảng lãnh đạo sau khi đã giành được chính quyền, đòi hỏi đảng viên phải tránh nguy cơ thoái hóa, biến chất."
+    },
+    {
+        "id": 132,
+        "chapterId": "Chương 4",
+        "concept": "Tính đặc thù của quy luật ra đời Đảng",
+        "definition": "Khác với phương Tây (chỉ có Mác-Lênin + PT Công nhân), VN có thêm yếu tố 'Phong trào yêu nước' rất mạnh mẽ."
+    },
+    {
+        "id": 133,
+        "chapterId": "Chương 4",
+        "concept": "Thái độ với khuyết điểm",
+        "definition": "Không sợ khuyết điểm, chỉ sợ không nhận ra và không chịu sửa chữa khuyết điểm."
+    },
+    {
+        "id": 134,
+        "chapterId": "Chương 4",
+        "concept": "Biện pháp chống tiêu cực",
+        "definition": "Giáo dục tư tưởng, hoàn thiện pháp luật nghiêm minh, và phát huy vai trò giám sát của quần chúng nhân dân."
+    },
+    {
+        "id": 135,
+        "chapterId": "Chương 4",
+        "concept": "Sự gương mẫu của lãnh đạo",
+        "definition": "Đảng viên đi trước, làng nước theo sau. Chức vụ càng cao càng phải tự rèn luyện đạo đức."
+    },
+    {
+        "id": 136,
+        "chapterId": "Chương 4",
+        "concept": "Tín nhiệm của nhân dân",
+        "definition": "Cơ sở tồn tại của quyền lực nhà nước. Nếu mất tín nhiệm, nhân dân có quyền thu hồi quyền lực."
+    },
+    {
+        "id": 137,
+        "chapterId": "Chương 5",
+        "concept": "Vai trò của Đại đoàn kết (ĐĐK)",
+        "definition": "Là vấn đề có ý nghĩa chiến lược, quyết định thành công của cách mạng (Mục tiêu, nhiệm vụ hàng đầu)."
+    },
+    {
+        "id": 138,
+        "chapterId": "Chương 5",
+        "concept": "Luận điểm nổi tiếng về ĐĐK",
+        "definition": "'Đoàn kết, đoàn kết, đại đoàn kết - Thành công, thành công, đại thành công'."
+    },
+    {
+        "id": 139,
+        "chapterId": "Chương 5",
+        "concept": "Lực lượng của khối ĐĐK",
+        "definition": "Toàn thể nhân dân Việt Nam, bao gồm mọi giai cấp, tầng lớp, đảng phái, tôn giáo, dân tộc."
+    },
+    {
+        "id": 140,
+        "chapterId": "Chương 5",
+        "concept": "Nền tảng của khối ĐĐK",
+        "definition": "Là liên minh Công nhân - Nông dân - Trí thức, đặt dưới sự lãnh đạo của Đảng."
+    },
+    {
+        "id": 141,
+        "chapterId": "Chương 5",
+        "concept": "Điều kiện xây dựng ĐĐK: Lòng khoan dung",
+        "definition": "Độ lượng, trân trọng phần thiện của con người, xóa bỏ thành kiến, thu phục cả những người lầm đường lạc lối."
+    },
+    {
+        "id": 142,
+        "chapterId": "Chương 5",
+        "concept": "Điều kiện xây dựng ĐĐK: Kế thừa truyền thống",
+        "definition": "Dựa vào truyền thống yêu nước, nhân nghĩa, tinh thần tương thân tương ái của dân tộc."
+    },
+    {
+        "id": 143,
+        "chapterId": "Chương 5",
+        "concept": "Điều kiện xây dựng ĐĐK: Tin vào nhân dân",
+        "definition": "Tin tưởng sức mạnh, trí tuệ của quần chúng; vì dân, dựa vào dân để phấn đấu."
+    },
+    {
+        "id": 144,
+        "chapterId": "Chương 5",
+        "concept": "Hình thức tổ chức ĐĐK",
+        "definition": "Mặt trận dân tộc thống nhất (Tùy thời kỳ có tên gọi khác nhau: Hội phản đế, Việt Minh, Liên Việt...)."
+    },
+    {
+        "id": 145,
+        "chapterId": "Chương 5",
+        "concept": "Nguyên tắc Mặt trận: Dựa trên nền tảng",
+        "definition": "Xây dựng trên nền tảng liên minh công-nông-trí thức, do Đảng lãnh đạo."
+    },
+    {
+        "id": 146,
+        "chapterId": "Chương 5",
+        "concept": "Nguyên tắc Mặt trận: Hoạt động",
+        "definition": "Hiệp thương dân chủ, bàn bạc công khai, tôn trọng sự khác biệt nhưng thống nhất vì lợi ích chung."
+    },
+    {
+        "id": 147,
+        "chapterId": "Chương 5",
+        "concept": "Nguyên tắc Mặt trận: Tính chất",
+        "definition": "Đoàn kết lâu dài, chặt chẽ, đoàn kết thật sự, chân thành, thân ái giúp đỡ nhau."
+    },
+    {
+        "id": 148,
+        "chapterId": "Chương 5",
+        "concept": "Phương thức xây dựng ĐĐK: Dân vận",
+        "definition": "Làm tốt công tác vận động quần chúng, sát cơ sở, thấu hiểu tâm tư nguyện vọng của dân."
+    },
+    {
+        "id": 149,
+        "chapterId": "Chương 5",
+        "concept": "Vai trò của Đảng trong Mặt trận",
+        "definition": "Đảng vừa là thành viên, vừa là lực lượng lãnh đạo Mặt trận bằng đường lối, chính sách và sự gương mẫu."
+    },
+    {
+        "id": 150,
+        "chapterId": "Chương 5",
+        "concept": "Sự cần thiết của Đoàn kết quốc tế",
+        "definition": "Kết hợp sức mạnh dân tộc (nội lực) với sức mạnh thời đại (ngoại lực) tạo sức mạnh tổng hợp."
+    },
+    {
+        "id": 151,
+        "chapterId": "Chương 5",
+        "concept": "Lực lượng đoàn kết quốc tế",
+        "definition": "Phong trào cộng sản, công nhân thế giới; Phong trào GPDT; Lực lượng hòa bình, dân chủ tiến bộ."
+    },
+    {
+        "id": 152,
+        "chapterId": "Chương 5",
+        "concept": "Nguyên tắc đoàn kết quốc tế: Độc lập tự chủ",
+        "definition": "Đoàn kết trên cơ sở giữ vững độc lập, tự chủ, tự lực cánh sinh (nội lực là quyết định)."
+    },
+    {
+        "id": 153,
+        "chapterId": "Chương 5",
+        "concept": "Nguyên tắc đoàn kết quốc tế: Hợp tác bình đẳng",
+        "definition": "Tôn trọng độc lập, chủ quyền, không can thiệp công việc nội bộ, đôi bên cùng có lợi."
+    },
+    {
+        "id": 154,
+        "chapterId": "Chương 5",
+        "concept": "Châm ngôn ngoại giao",
+        "definition": "'Làm bạn với tất cả mọi nước dân chủ và không gây thù oán với một ai'."
+    },
+    {
+        "id": 155,
+        "chapterId": "Chương 5",
+        "concept": "Chủ nghĩa yêu nước & Chủ nghĩa quốc tế",
+        "definition": "Phải kết hợp chặt chẽ chủ nghĩa yêu nước chân chính với chủ nghĩa quốc tế vô sản trong sáng."
+    },
+    {
+        "id": 156,
+        "chapterId": "Chương 5",
+        "concept": "Tính giai cấp của ĐĐK",
+        "definition": "ĐĐK mang tính dân tộc rộng rãi nhưng lập trường cốt lõi là giai cấp công nhân."
+    },
+    {
+        "id": 157,
+        "chapterId": "Chương 5",
+        "concept": "Khẩu hiệu 'Đoàn kết...'",
+        "definition": "Áp dụng cả trong nước và quốc tế để tạo mặt trận nhân dân thế giới ủng hộ Việt Nam."
+    },
+    {
+        "id": 158,
+        "chapterId": "Chương 5",
+        "concept": "Sức mạnh dân tộc gồm những gì?",
+        "definition": "Lòng yêu nước, truyền thống văn hóa, ý chí tự cường, sức mạnh địa lý, con người Việt Nam."
+    },
+    {
+        "id": 159,
+        "chapterId": "Chương 5",
+        "concept": "Sức mạnh thời đại gồm những gì?",
+        "definition": "Sức mạnh của các trào lưu CM thế giới, khoa học công nghệ, xu thế hòa bình độc lập."
+    },
+    {
+        "id": 160,
+        "chapterId": "Chương 5",
+        "concept": "Quan điểm về kiều bào",
+        "definition": "Kiều bào là 'khúc ruột của ngàn dặm', là một bộ phận không thể tách rời của dân tộc Việt Nam."
+    },
+    {
+        "id": 161,
+        "chapterId": "Chương 5",
+        "concept": "Hiệp thương dân chủ là gì?",
+        "definition": "Bàn bạc, thảo luận để đi đến thống nhất hành động, không áp đặt mệnh lệnh trong Mặt trận."
+    },
+    {
+        "id": 162,
+        "chapterId": "Chương 5",
+        "concept": "Mặt trận Việt Minh (1941)",
+        "definition": "Đỉnh cao của sự tập hợp lực lượng toàn dân, góp phần trực tiếp làm nên CM Tháng Tám."
+    },
+    {
+        "id": 163,
+        "chapterId": "Chương 5",
+        "concept": "Cơ sở đoàn kết quốc tế",
+        "definition": "Cùng chung mục tiêu đấu tranh chống chủ nghĩa đế quốc, vì hòa bình, độc lập dân tộc, dân chủ và CNXH."
+    },
+    {
+        "id": 164,
+        "chapterId": "Chương 5",
+        "concept": "Câu nói về Dân vận",
+        "definition": "Dân vận kém thì việc gì cũng kém. Dân vận khéo thì việc gì cũng thành công."
+    },
+    {
+        "id": 165,
+        "chapterId": "Chương 5",
+        "concept": "Hội Phản đế đồng minh (1930)",
+        "definition": "Hình thức mặt trận đầu tiên do Đảng sáng lập để tập hợp lực lượng đánh Pháp."
+    },
+    {
+        "id": 166,
+        "chapterId": "Chương 5",
+        "concept": "Lòng khoan dung của HCM",
+        "definition": "Như 'năm ngón tay có ngón ngắn ngón dài', phải lấy tình thân ái mà cảm hóa những người lầm lạc."
+    },
+    {
+        "id": 167,
+        "chapterId": "Chương 5",
+        "concept": "Mục đích của Mặt trận",
+        "definition": "Phấn đấu vì mục tiêu chung: Cứu nước, cứu dân, xây dựng đất nước hòa bình thống nhất."
+    },
+    {
+        "id": 168,
+        "chapterId": "Chương 5",
+        "concept": "Cách tập hợp thanh niên, phụ nữ...",
+        "definition": "Thành lập các đoàn thể quần chúng (Công đoàn, Hội Nông dân, Đoàn Thanh niên...) làm nòng cốt."
+    },
+    {
+        "id": 169,
+        "chapterId": "Chương 5",
+        "concept": "Quan điểm về 'Tự lực cánh sinh'",
+        "definition": "Muốn người ta giúp cho thì trước hết mình phải tự giúp lấy mình đã."
+    },
+    {
+        "id": 170,
+        "chapterId": "Chương 5",
+        "concept": "Ngoại giao tâm công",
+        "definition": "Thu phục lòng người, tranh thủ sự đồng tình của nhân dân thế giới, kể cả nhân dân nước đối địch."
+    },
+    {
+        "id": 171,
+        "chapterId": "Chương 6",
+        "concept": "Định nghĩa Văn hóa theo HCM (1943)",
+        "definition": "Là tổng hợp phương thức sinh hoạt và biểu hiện do loài người sáng tạo ra để sinh tồn và phát triển."
+    },
+    {
+        "id": 172,
+        "chapterId": "Chương 6",
+        "concept": "Quan hệ Văn hóa - Kinh tế - Chính trị",
+        "definition": "Kinh tế, chính trị là cơ sở hạ tầng quyết định văn hóa. Đổi lại, văn hóa tác động trở lại, soi đường cho sự phát triển."
+    },
+    {
+        "id": 173,
+        "chapterId": "Chương 6",
+        "concept": "Vai trò của Văn hóa",
+        "definition": "Văn hóa phải soi đường cho quốc dân đi; là mục tiêu và động lực của sự phát triển xã hội."
+    },
+    {
+        "id": 174,
+        "chapterId": "Chương 6",
+        "concept": "Tính chất nền văn hóa mới",
+        "definition": "Mang tính Dân tộc (bản sắc), Khoa học (thuận quy luật), Đại chúng (phục vụ nhân dân)."
+    },
+    {
+        "id": 175,
+        "chapterId": "Chương 6",
+        "concept": "Đạo đức cách mạng là gì?",
+        "definition": "Là cái gốc, nền tảng của người cách mạng. Giống như sông có nguồn, cây có gốc."
+    },
+    {
+        "id": 176,
+        "chapterId": "Chương 6",
+        "concept": "Tài và Đức",
+        "definition": "Có tài không có đức là người vô dụng. Có đức không có tài thì làm việc gì cũng khó."
+    },
+    {
+        "id": 177,
+        "chapterId": "Chương 6",
+        "concept": "Chuẩn mực 1: Trung với nước, hiếu với dân",
+        "definition": "Khác với trung quân hiếu phụ phong kiến. Trung với nước là trung với lợi ích dân tộc; hiếu với dân là phục vụ nhân dân."
+    },
+    {
+        "id": 178,
+        "chapterId": "Chương 6",
+        "concept": "Chuẩn mực 2: Cần, Kiệm, Liêm, Chính",
+        "definition": "Cần (chăm chỉ); Kiệm (không xa xỉ); Liêm (trong sạch); Chính (thẳng thắn, đúng đắn)."
+    },
+    {
+        "id": 179,
+        "chapterId": "Chương 6",
+        "concept": "Chuẩn mực 3: Yêu thương con người",
+        "definition": "Tình yêu thương lớn lao đối với đồng bào, đồng chí, dựa trên nguyên tắc tự phê bình và phê bình chân thành."
+    },
+    {
+        "id": 180,
+        "chapterId": "Chương 6",
+        "concept": "Chuẩn mực 4: Tinh thần quốc tế",
+        "definition": "Tinh thần quốc tế trong sáng, đoàn kết với các dân tộc bị áp bức và phong trào công nhân thế giới."
+    },
+    {
+        "id": 181,
+        "chapterId": "Chương 6",
+        "concept": "Nguyên tắc rèn luyện 1",
+        "definition": "Nói đi đôi với làm, phải nêu gương về đạo đức."
+    },
+    {
+        "id": 182,
+        "chapterId": "Chương 6",
+        "concept": "Nguyên tắc rèn luyện 2",
+        "definition": "Xây đi đôi với chống. Xây dựng đạo đức mới phải gắn liền với chống chủ nghĩa cá nhân."
+    },
+    {
+        "id": 183,
+        "chapterId": "Chương 6",
+        "concept": "Nguyên tắc rèn luyện 3",
+        "definition": "Phải tu dưỡng đạo đức suốt đời (Như ngọc càng mài càng sáng, vàng càng luyện càng trong)."
+    },
+    {
+        "id": 184,
+        "chapterId": "Chương 6",
+        "concept": "Vị trí của con người",
+        "definition": "Con người là vốn quý nhất, là nhân tố quyết định thành bại của cách mạng."
+    },
+    {
+        "id": 185,
+        "chapterId": "Chương 6",
+        "concept": "Chiến lược trồng người",
+        "definition": "'Vì lợi ích 10 năm trồng cây, vì lợi ích 100 năm trồng người'. Phải giáo dục con người toàn diện."
+    },
+    {
+        "id": 186,
+        "chapterId": "Chương 6",
+        "concept": "Chủ nghĩa cá nhân",
+        "definition": "Là kẻ thù hung ác, là 'giặc nội xâm', là nguyên nhân đẻ ra tham ô, quan liêu, bè phái."
+    },
+    {
+        "id": 187,
+        "chapterId": "Chương 6",
+        "concept": "Chữ 'Đại chúng' trong văn hóa",
+        "definition": "Văn hóa phải phục vụ đông đảo quần chúng nhân dân, ngôn ngữ dễ hiểu, thiết thực."
+    },
+    {
+        "id": 188,
+        "chapterId": "Chương 6",
+        "concept": "Di sản văn hóa dân tộc",
+        "definition": "Phải bảo tồn, kế thừa có chọn lọc; gạn đục khơi trong; loại bỏ hủ tục lạc hậu."
+    },
+    {
+        "id": 189,
+        "chapterId": "Chương 6",
+        "concept": "Giáo dục trong TT HCM",
+        "definition": "Giáo dục để đào tạo ra những công dân tốt, cán bộ tốt, phát triển toàn diện (Đức, Trí, Thể, Mỹ)."
+    },
+    {
+        "id": 190,
+        "chapterId": "Chương 6",
+        "concept": "Đức và Tài",
+        "definition": "Hồ Chí Minh nhấn mạnh: Đức là gốc, Tài là quan trọng. Thiếu 1 trong 2 đều không thể hoàn thành nhiệm vụ."
+    },
+    {
+        "id": 191,
+        "chapterId": "Chương 6",
+        "concept": "Sự tha hóa đạo đức",
+        "definition": "Đảng viên có quyền lực rất dễ sinh ra lạm quyền, xa hoa, tham nhũng nếu không tu dưỡng hằng ngày."
+    },
+    {
+        "id": 192,
+        "chapterId": "Chương 6",
+        "concept": "Chống thói đạo đức giả",
+        "definition": "Miệng thì nói vì dân vì nước nhưng việc làm thì vun vén cá nhân. Bác kịch liệt lên án thói này."
+    },
+    {
+        "id": 193,
+        "chapterId": "Chương 6",
+        "concept": "Động lực phát triển CNXH",
+        "definition": "Con người được giải phóng, làm chủ xã hội, có đạo đức và tri thức là động lực lớn nhất."
+    },
+    {
+        "id": 194,
+        "chapterId": "Chương 6",
+        "concept": "Văn hóa nghệ thuật",
+        "definition": "Là một mặt trận. Nghệ sĩ là chiến sĩ trên mặt trận ấy, dùng ngòi bút để phục vụ Tổ quốc."
+    },
+    {
+        "id": 195,
+        "chapterId": "Chương 6",
+        "concept": "Thư gửi học sinh (1945)",
+        "definition": "Non sông VN có trở nên vẻ vang hay không... chính là nhờ một phần lớn ở công học tập của các cháu."
+    },
+    {
+        "id": 196,
+        "chapterId": "Chương 6",
+        "concept": "Giữ gìn sự trong sáng của tiếng Việt",
+        "definition": "Là một phần của việc bảo vệ văn hóa dân tộc, không lạm dụng từ ngữ nước ngoài."
+    },
+    {
+        "id": 197,
+        "chapterId": "Chương 6",
+        "concept": "Cán bộ là 'Công bộc'",
+        "definition": "Cán bộ là đầy tớ chung của dân, làm việc vì dân, không phải là 'quan phụ mẫu'."
+    },
+    {
+        "id": 198,
+        "chapterId": "Chương 6",
+        "concept": "Giáo dục tinh thần quốc tế",
+        "definition": "Giáo dục lòng yêu nước chân chính phải gắn liền với chống chủ nghĩa dân tộc hẹp hòi, sô-vanh."
+    },
+    {
+        "id": 199,
+        "chapterId": "Chương 6",
+        "concept": "Văn hóa đời sống",
+        "definition": "Là xây dựng lối sống mới: thực hiện nếp sống văn minh, vệ sinh phòng bệnh, thể dục thể thao."
+    },
+    {
+        "id": 200,
+        "chapterId": "Chương 6",
+        "concept": "Phẩm chất 'Kiệm'",
+        "definition": "Không xa xỉ, không hoang phí, không bừa bãi. Tiết kiệm thời gian, tiền bạc, sức lao động."
+    },
+    {
+        "id": 201,
+        "chapterId": "Chương 6",
+        "concept": "Xây dựng con người mới",
+        "definition": "Là quá trình lâu dài, kết hợp giữa giáo dục của nhà trường, xã hội và sự tự rèn luyện của cá nhân."
+    },
+    {
+        "id": 202,
+        "chapterId": "Chương 6",
+        "concept": "Tiêu chuẩn con người mới",
+        "definition": "Có lý tưởng XHCN, có đạo đức cách mạng, có tri thức, kỷ luật và sức khỏe."
+    },
+    {
+        "id": 203,
+        "chapterId": "Chương 6",
+        "concept": "Ý nghĩa của Tự phê bình",
+        "definition": "Không phải để bới móc nhau, mà để giúp nhau sửa chữa, giúp nhau tiến bộ."
+    },
+    {
+        "id": 204,
+        "chapterId": "Chương 6",
+        "concept": "Tấm gương đạo đức HCM",
+        "definition": "Là sự thống nhất giữa lời nói và việc làm, giữa vĩ đại và giản dị, là tài sản tinh thần vô giá của dân tộc."
+    }
+];
+
+        // --- EXPANDED QUIZZES ---
+        const quizzesData = {
+            "chapter-1": [
+                { id: 101, q: "Khái niệm Tư tưởng Hồ Chí Minh được Đảng ta định nghĩa hoàn chỉnh nhất tại Đại hội nào?", opts: ["Đại hội VII", "Đại hội IX", "Đại hội XI", "Đại hội XII"], ans: "Đại hội XI", exp: "Đại hội XI (2011) đã đưa ra định nghĩa chuẩn xác và hoàn chỉnh nhất đang được sử dụng hiện nay." },
+                { id: 102, q: "Nguyên tắc 'Thống nhất tính đảng và tính khoa học' yêu cầu người nghiên cứu phải đứng trên lập trường của giai cấp nào?", opts: ["Giai cấp tư sản", "Giai cấp công nhân", "Tầng lớp trí thức", "Giai cấp nông dân"], ans: "Giai cấp công nhân", exp: "Đứng trên lập trường giai cấp công nhân, quán triệt quan điểm Mác-Lênin để nhận thức khách quan, khoa học." },
+                { id: 103, q: "Hồ Chí Minh là người đầu tiên trên thế giới phát hiện ra vai trò to lớn của quần chúng nhân dân trong lịch sử?", opts: ["Đúng", "Sai"], ans: "Sai", exp: "Các nhà sáng lập chủ nghĩa Mác-Lênin mới là những người đầu tiên phát hiện ra quy luật này. HCM đã tiếp thu và vận dụng sáng tạo." }
+            ],
+            "chapter-2": [
+                { id: 201, q: "Cơ sở lý luận nào giữ vai trò quyết định, tạo bước nhảy vọt về chất trong tư tưởng Hồ Chí Minh?", opts: ["Giá trị truyền thống dân tộc", "Tinh hoa văn hóa phương Đông", "Chủ nghĩa Mác - Lênin", "Văn hóa phương Tây"], ans: "Chủ nghĩa Mác - Lênin", exp: "Cung cấp thế giới quan và phương pháp luận khoa học, giúp Người tìm ra con đường cứu nước theo cách mạng vô sản." },
+                { id: 202, q: "Sự kiện nào đánh dấu bước ngoặt Hồ Chí Minh tìm thấy con đường cứu nước (giai đoạn 1911-1920)?", opts: ["Ra đi tìm đường cứu nước 1911", "Đọc Sơ thảo Luận cương của Lênin (7/1920)", "Lập Đảng CS Pháp (12/1920)", "Về nước 1941"], ans: "Đọc Sơ thảo Luận cương của Lênin (7/1920)", exp: "Đây là thời khắc Người vui mừng đến phát khóc vì đã tìm thấy 'cái cẩm nang thần kỳ' giải phóng dân tộc." },
+                { id: 203, q: "Hồ Chí Minh đã tiếp thu yếu tố 'từ bi, hỷ xả, yêu thương con người' từ học thuyết nào?", opts: ["Nho giáo", "Phật giáo", "Lão giáo", "Thiên chúa giáo"], ans: "Phật giáo", exp: "Người đánh giá cao tinh thần từ bi, vị tha, sống hòa đồng và chống lại điều ác của Phật giáo." }
+            ],
+            "chapter-3": [
+                { id: 301, q: "Theo Hồ Chí Minh, nền độc lập dân tộc thực chất phải gắn liền với yếu tố nào?", opts: ["Sự công nhận của quốc tế", "Sức mạnh quân sự", "Tự do, ấm no, hạnh phúc của nhân dân", "Phát triển công nghiệp nặng"], ans: "Tự do, ấm no, hạnh phúc của nhân dân", exp: "Người khẳng định: 'Nước độc lập mà dân không hưởng hạnh phúc tự do, thì độc lập cũng chẳng có nghĩa lý gì'." },
+                { id: 302, q: "Mối quan hệ giữa Cách mạng giải phóng dân tộc và Cách mạng vô sản ở chính quốc theo HCM là gì?", opts: ["Phụ thuộc hoàn toàn vào CM chính quốc", "Bình đẳng, có thể giành thắng lợi trước", "Chỉ diễn ra sau khi CM chính quốc thắng lợi", "Không có quan hệ gì"], ans: "Bình đẳng, có thể giành thắng lợi trước", exp: "Đây là điểm sáng tạo độc đáo của HCM so với Quốc tế Cộng sản thời bấy giờ, đánh giá cao tiềm lực của thuộc địa." },
+                { id: 303, q: "Tiền đề quan trọng nhất để tiến lên xây dựng Chủ nghĩa xã hội ở Việt Nam là gì?", opts: ["Kinh tế phát triển", "Độc lập dân tộc", "Sự giúp đỡ quốc tế", "Khoa học kỹ thuật hiện đại"], ans: "Độc lập dân tộc", exp: "Phải có độc lập dân tộc mới có cơ sở làm chủ đất nước để xây dựng CNXH." }
+            ],
+            "chapter-4": [
+                { id: 401, q: "Người ví nguyên tắc 'Tự phê bình và phê bình' giống như hoạt động sinh hoạt nào?", opts: ["Ăn cơm hằng ngày", "Rửa mặt hằng ngày", "Tập thể dục", "Uống thuốc chữa bệnh"], ans: "Rửa mặt hằng ngày", exp: "Phải làm thường xuyên để gột rửa khuyết điểm, làm cho Đảng luôn trong sạch." },
+                { id: 402, q: "Nhà nước do nhân dân làm chủ, quyền lực tối cao thuộc về nhân dân thể hiện bản chất gì?", opts: ["Bản chất giai cấp công nhân", "Bản chất dân chủ", "Bản chất pháp quyền", "Bản chất độc tài"], ans: "Bản chất dân chủ", exp: "Nhà nước 'Của nhân dân' nghĩa là mọi quyền lực trong nước đều là của toàn thể nhân dân." },
+                { id: 403, q: "Hồ Chí Minh gọi những căn bệnh tham ô, lãng phí, quan liêu là gì?", opts: ["Kẻ thù nguy hiểm", "Giặc nội xâm", "Bệnh mãn tính", "Lỗi lầm nhỏ"], ans: "Giặc nội xâm", exp: "Người coi đây là loại giặc nguy hiểm hơn cả giặc ngoại xâm vì nó phá hoại từ bên trong." }
+            ],
+            "chapter-5": [
+                { id: 501, q: "Nền tảng cốt lõi của lực lượng đại đoàn kết toàn dân tộc là liên minh giữa các giai tầng nào?", opts: ["Công nhân - Nông dân - Tư sản", "Công nhân - Nông dân - Trí thức", "Sĩ - Nông - Công - Thương", "Đảng viên và Quần chúng"], ans: "Công nhân - Nông dân - Trí thức", exp: "Khối liên minh này là gốc rễ nền tảng tạo thế đứng vững chắc nhất cho chiến lược đại đoàn kết." },
+                { id: 502, q: "Hình thức tổ chức của khối Đại đoàn kết toàn dân tộc theo Tư tưởng HCM là gì?", opts: ["Đảng Cộng sản", "Nhà nước", "Quân đội nhân dân", "Mặt trận dân tộc thống nhất"], ans: "Mặt trận dân tộc thống nhất", exp: "Mặt trận là nơi quy tụ, tập hợp mọi tổ chức, cá nhân yêu nước để phát huy sức mạnh tổng hợp." }
+            ],
+            "chapter-6": [
+                { id: 601, q: "Hồ Chí Minh ví 'Đạo đức cách mạng' với hình ảnh nào trong tự nhiên?", opts: ["Bầu trời và mặt đất", "Nguồn của sông, gốc của cây", "Ánh sáng mặt trời", "Kim chỉ nam"], ans: "Nguồn của sông, gốc của cây", exp: "Sông có nguồn mới có nước, người cách mạng phải có đạo đức làm nền tảng cốt lõi." },
+                { id: 602, q: "Theo HCM, vai trò của Văn hóa đối với quốc gia dân tộc là gì?", opts: ["Làm đẹp xã hội", "Giải trí tinh thần", "Soi đường cho quốc dân đi", "Tăng trưởng kinh tế"], ans: "Soi đường cho quốc dân đi", exp: "Văn hóa là động lực, nền tảng tinh thần dẫn dắt sự phát triển của xã hội." },
+                { id: 603, q: "Khái niệm 'Liêm' trong 4 đức tính Cần, Kiệm, Liêm, Chính mang ý nghĩa gì?", opts: ["Siêng năng lao động", "Tiết kiệm tiền bạc", "Trong sạch, không tham ô", "Thẳng thắn, bảo vệ lẽ phải"], ans: "Trong sạch, không tham ô", exp: "Liêm là quang minh chính đại, không tham lam địa vị, tiền tài, luôn giữ sự trong sạch." }
+            ]
+        };
+
+        
+// --- BẢN ĐỒ LỊCH SỬ (TIMELINE DATA) ---
+const timelineData = [
+    { year: "1858", title: "Pháp xâm lược Việt Nam", desc: "Mở đầu thời kỳ khủng hoảng đường lối cứu nước, làm nảy sinh mâu thuẫn mới: Dân tộc VN vs Đế quốc Pháp." },
+    { year: "1911", title: "Ra đi tìm đường cứu nước", desc: "Ngày 5/6/1911, Bác ra đi. Đây là giai đoạn hình thành tư tưởng yêu nước và chí hướng tìm con đường mới." },
+    { year: "1917", title: "Cách mạng Tháng Mười Nga", desc: "Thắng lợi mở ra thời đại mới, đánh đổ giai cấp tư sản, mở ra con đường giải phóng cho các dân tộc bị áp bức." },
+    { year: "1919", title: "Gửi Yêu sách 8 điểm", desc: "Gửi Bản Yêu sách của nhân dân An Nam tới Hội nghị Versailles (Pháp) đòi quyền bình đẳng, tự do, dân chủ." },
+    { year: "07/1920", title: "Đọc Sơ thảo Luận cương của Lênin", desc: "Bước ngoặt vĩ đại: Tìm thấy con đường cứu nước giải phóng dân tộc theo con đường cách mạng vô sản." },
+    { year: "12/1920", title: "Bỏ phiếu tán thành Quốc tế III", desc: "Tại Đại hội Tours, Bác tham gia sáng lập Đảng Cộng sản Pháp. Chuyển biến từ người yêu nước thành người cộng sản." },
+    { year: "1923", title: "Thành lập Hội Liên hiệp thuộc địa", desc: "Tạo liên minh quốc tế của các dân tộc bị áp bức." },
+    { year: "1925", title: "Bản án chế độ thực dân Pháp", desc: "Tác phẩm vạch trần tội ác của thực dân, chuẩn bị tư tưởng cho sự ra đời của Đảng." },
+    { year: "1927", title: "Tác phẩm Đường Kách Mệnh", desc: "Chuẩn bị mọi mặt về chính trị, tư tưởng, tổ chức cho sự ra đời của Đảng Cộng sản Việt Nam." },
+    { year: "1930", title: "Thành lập Đảng Cộng sản Việt Nam", desc: "Chấm dứt khủng hoảng đường lối. Thông qua Cương lĩnh chính trị đầu tiên (Chánh cương vắn tắt, Sách lược vắn tắt)." },
+    { year: "1941", title: "Về nước trực tiếp lãnh đạo", desc: "Chủ trì Hội nghị TW 8, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu, sáng lập Mặt trận Việt Minh." },
+    { year: "1945", title: "Tuyên ngôn Độc lập", desc: "Ngày 2/9/1945, khai sinh nước VNDCCH - kỷ nguyên mới: Độc lập dân tộc gắn liền với Chủ nghĩa xã hội." },
+    { year: "1946", title: "Hiến pháp đầu tiên", desc: "Bản Hiến pháp dân chủ đầu tiên do Chủ tịch Hồ Chí Minh làm Trưởng ban soạn thảo." },
+    { year: "1951", title: "Đại hội II của Đảng", desc: "Đảng ra hoạt động công khai lấy tên Đảng Lao động VN. Lần đầu tiên Đảng khẳng định 'Đường lối, tác phong là của Chủ tịch Hồ Chí Minh'." },
+    { year: "1954", title: "Chiến thắng Điện Biên Phủ", desc: "Kết thúc 9 năm kháng chiến chống Pháp, miền Bắc hoàn toàn giải phóng tiến lên CNXH." },
+    { year: "1960", title: "Bài nói Lễ Kỷ niệm 30 năm thành lập Đảng", desc: "Khẳng định: 'Đảng ta là đạo đức, là văn minh'." },
+    { year: "1966", title: "Lời kêu gọi chống Mỹ cứu nước", desc: "Khẳng định chân lý thời đại: 'Không có gì quý hơn độc lập, tự do'." },
+    { year: "1969", title: "Bản Di chúc thiêng liêng", desc: "Kết tinh tư tưởng, đạo đức, phong cách của một lãnh tụ vĩ đại. Bác để lại muôn vàn tình thương yêu." },
+    { year: "1991", title: "Đại hội VII của Đảng", desc: "Cột mốc lớn: Lần đầu tiên Đảng khẳng định lấy Chủ nghĩa Mác-Lênin và Tư tưởng Hồ Chí Minh làm nền tảng tư tưởng." },
+    { year: "2011", title: "Đại hội XI của Đảng", desc: "Đưa ra định nghĩa hoàn chỉnh, toàn diện và sâu sắc nhất về khái niệm Tư tưởng Hồ Chí Minh mà ta học hiện nay." }
+];
+
+function renderTimeline() {
+    const container = document.getElementById('timeline-container');
+    container.innerHTML = timelineData.map((item, index) => {
+        const isEven = index % 2 === 0;
+        return `
+        <div class="mb-8 flex justify-between items-center w-full ${isEven ? 'md:flex-row-reverse' : 'flex-row'}">
+            <div class="hidden md:block w-5/12"></div>
+            <div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-8 h-8 md:w-10 md:h-10 rounded-full absolute left-[-16px] md:left-1/2 md:-translate-x-1/2 border-4 border-white">
+                <i data-lucide="star" class="h-4 w-4 md:h-5 md:w-5 text-white mx-auto"></i>
+            </div>
+            <div class="order-1 rounded-xl shadow-md bg-white border border-surface-border w-[calc(100%-2rem)] md:w-5/12 px-6 py-4 relative ml-8 md:ml-0 hover:-translate-y-1 transition-transform duration-300">
+                <div class="absolute w-0 h-0 border-y-8 border-y-transparent ${isEven ? 'md:border-l-8 md:border-l-white md:-right-2' : 'md:border-r-8 md:border-r-white md:-left-2'} border-r-8 border-r-white -left-2 md:border-r-0 top-6"></div>
+                <h3 class="mb-1 font-bold text-brand-orange text-xl font-display">${item.year}</h3>
+                <h4 class="mb-2 font-bold text-brand-dark text-base">${item.title}</h4>
+                <p class="text-sm leading-snug text-brand-slate">${item.desc}</p>
+            </div>
+        </div>
+        `;
+    }).join('');
+    lucide.createIcons();
+}
+
+// --- 2. STATE MANAGEMENT (LOCAL STORAGE) ---
+        let progress = {
+            completedLessons: [], 
+            flashcardsReviewed: [], 
+            quizScores: {}, 
+            unlockedBadges: [] 
+        };
+
+        function loadProgress() {
+            const saved = localStorage.getItem('hcm-hub-progress');
+            if (saved) progress = JSON.parse(saved);
+        }
+
+        function saveProgress() {
+            localStorage.setItem('hcm-hub-progress', JSON.stringify(progress));
+            updateDashboardUI();
+        }
+
+        // --- 3. CORE LOGIC & UI RENDERING ---
+        
+        // Navigation Logic
+        function navigate(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active state in navbar
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.dataset.target === pageId) {
+                    btn.classList.add('bg-orange-50', 'text-brand-orange');
+                    btn.classList.remove('text-brand-slate');
+                } else {
+                    btn.classList.remove('bg-orange-50', 'text-brand-orange');
+                    btn.classList.add('text-brand-slate');
+                }
+            });
+            window.scrollTo(0, 0);
+
+            if (pageId === 'dashboard') updateDashboardUI();
+            if (pageId === 'lessons') renderLessonsPage();
+            if (pageId === 'flashcards') renderFlashcard();
+            if (pageId === 'timeline') renderTimeline();
+        }
+
+        // Dashboard Rendering
+        function updateDashboardUI() {
+            let totalLessons = 0;
+            chaptersData.forEach(ch => totalLessons += ch.sections.length);
+            const completedCount = progress.completedLessons.length;
+            const percentage = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+
+            document.getElementById('dash-percent').innerText = `${percentage}%`;
+            document.getElementById('dash-bar').style.width = `${percentage}%`;
+            document.getElementById('dash-lessons-txt').innerText = `Đã học ${completedCount}/${totalLessons} tiểu mục.`;
+
+            const cardsCount = progress.flashcardsReviewed.length;
+            document.getElementById('dash-cards').innerText = cardsCount;
+            document.getElementById('dash-card-bar').style.width = `${Math.min((cardsCount/flashcardsData.length) * 100, 100)}%`;
+
+            document.getElementById('dash-badges-count').innerText = progress.unlockedBadges.length;
+            const badgesHtml = progress.unlockedBadges.map(b => {
+                let text = b === "first-chapter" ? "Khởi Đầu" : b === "quiz-master" ? "Sát Thủ Quiz" : "Chuyên Gia Thẻ";
+                return `<span class="inline-block rounded bg-amber-100 px-2 py-1 text-xs font-bold text-amber-800 shadow-sm border border-amber-200">🏆 ${text}</span>`;
+            }).join('');
+            document.getElementById('dash-badges-list').innerHTML = badgesHtml || '<p class="text-sm text-brand-slate italic">Chưa mở khóa danh hiệu nào.</p>';
+
+            const chaptersHtml = chaptersData.map((ch, idx) => {
+                const isDone = ch.sections.every(s => progress.completedLessons.includes(s.id));
+                const checkIcon = isDone ? `<i data-lucide="check-circle-2" class="h-5 w-5 text-emerald-500 fill-emerald-50"></i>` : '';
+                
+                return `
+                    <div class="group relative rounded-xl border border-surface-border bg-white p-4 md:p-5 hover:border-brand-orange/50 transition-all duration-300 flex flex-col justify-between space-y-3 shadow-sm">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-brand-orange">CHƯƠNG ${ch.number}</span>
+                                ${checkIcon}
+                            </div>
+                            <h3 class="font-bold text-sm md:text-base text-brand-dark line-clamp-2 group-hover:text-brand-orange transition-colors">${ch.title}</h3>
+                        </div>
+                        <div class="flex gap-2 pt-2">
+                            <button onclick="openLesson(${idx})" class="flex-1 h-9 rounded-lg border border-surface-border text-xs md:text-sm font-medium hover:bg-surface-muted transition-colors text-brand-dark">Vào bài</button>
+                            <button onclick="openQuiz('${ch.id}')" class="flex-1 h-9 rounded-lg bg-brand-orange text-white text-xs md:text-sm font-medium hover:bg-orange-600 transition-colors">Làm Quiz</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('dashboard-chapters-container').innerHTML = chaptersHtml;
+            lucide.createIcons();
+        }
+
+        // Lessons Logic
+        let activeChapterIdx = 0;
+
+        function openLesson(idx) {
+            activeChapterIdx = idx;
+            navigate('lessons');
+        }
+
+        function renderLessonsPage() {
+            const sidebarHtml = chaptersData.map((ch, idx) => {
+                const isActive = activeChapterIdx === idx;
+                const isDone = ch.sections.every(s => progress.completedLessons.includes(s.id));
+                const checkClass = isDone ? (isActive ? "text-white" : "text-emerald-500") : "hidden";
+                const bgClass = isActive ? "bg-brand-orange text-white border-brand-orange shadow-md" : "bg-white text-brand-dark border-surface-border hover:bg-surface-muted";
+                
+                return `
+                    <button onclick="openLesson(${idx})" class="flex items-center justify-between text-left rounded-xl p-3 md:p-3.5 text-xs md:text-sm font-semibold transition-all shrink-0 lg:shrink w-56 md:w-64 lg:w-full border ${bgClass}">
+                        <span class="truncate pr-2">Ch ${ch.number}: ${ch.title.split(",")[0].split(" và")[0]}</span>
+                        <i data-lucide="check-circle-2" class="h-4 w-4 shrink-0 ${checkClass}"></i>
+                    </button>
+                `;
+            }).join('');
+            document.getElementById('lessons-sidebar').innerHTML = sidebarHtml;
+
+            const ch = chaptersData[activeChapterIdx];
+            
+            const sectionsHtml = ch.sections.map((sec) => {
+                const isDone = progress.completedLessons.includes(sec.id);
+                const titleColor = isDone ? "text-emerald-600" : "text-brand-dark";
+                const checkIcon = isDone ? `<i data-lucide="check" class="h-4 w-4 text-emerald-600 shrink-0"></i>` : '';
+                const btnState = isDone ? `disabled class="text-xs h-9 px-3 rounded-lg border border-surface-border text-brand-slate opacity-50 cursor-not-allowed"` : `class="text-xs h-9 px-3 rounded-lg bg-brand-orange text-white hover:bg-orange-600 font-medium transition-colors" onclick="markComplete('${sec.id}')"`;
+                
+                return `
+                    <div class="border rounded-xl bg-white shadow-sm border-surface-border overflow-hidden">
+                        <button onclick="toggleAccordion('${sec.id}')" class="w-full flex items-center justify-between p-3 md:p-4 font-bold text-sm md:text-base hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center space-x-3 pr-2 md:pr-4"><span class="${titleColor} text-left leading-snug">${sec.title}</span>${checkIcon}</div>
+                            <i data-lucide="chevron-down" class="h-5 w-5 text-brand-slate shrink-0 transition-transform duration-200" id="icon-${sec.id}"></i>
+                        </button>
+                        <div id="content-${sec.id}" class="hidden border-t border-gray-100">
+                            <div class="p-3 md:p-4 space-y-4">
+                                <p class="text-zinc-700 whitespace-pre-line text-sm md:text-base leading-relaxed">${sec.content}</p>
+                                <div class="flex justify-end pt-2">
+                                    <button ${btnState}>${isDone ? "Đã học xong" : "Đánh dấu hoàn thành"}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const contentHtml = `
+                <div class="border-b border-surface-border pb-4 md:pb-6 space-y-2 md:space-y-3">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest">Giáo trình lý luận số</span>
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-brand-dark leading-tight font-display">Chương ${ch.number}: ${ch.title}</h1>
+                    <p class="text-zinc-600 bg-surface-card rounded-lg p-3 md:p-3.5 border border-surface-border text-sm italic">${ch.intro}</p>
+                </div>
+                <div class="space-y-2 md:space-y-3 bg-orange-50/50 rounded-xl border border-orange-100 p-3 md:p-4">
+                    <div class="flex items-center space-x-2 text-brand-orange"><i data-lucide="award" class="h-4 md:h-5 w-4 md:w-5"></i><h3 class="font-bold text-sm md:text-base">Mục tiêu cốt lõi</h3></div>
+                    <ul class="list-disc pl-5 text-xs md:text-sm text-zinc-700 space-y-1.5">${ch.objectives.map(o => `<li>${o}</li>`).join('')}</ul>
+                </div>
+                <div class="space-y-3 md:space-y-4">
+                    <h3 class="font-bold text-base md:text-lg text-brand-dark border-l-4 border-brand-orange pl-3">Nội dung chi tiết</h3>
+                    <div class="space-y-3">${sectionsHtml}</div>
+                </div>
+                <div class="bg-surface-card rounded-xl border border-surface-border p-3 md:p-4 space-y-2 mt-6 md:mt-8">
+                    <div class="flex items-center space-x-2 text-brand-dark font-bold"><i data-lucide="bookmark" class="h-4 w-4 text-brand-orange"></i><h4>Tóm tắt cốt lõi</h4></div>
+                    <p class="text-xs md:text-sm text-zinc-600 leading-relaxed">${ch.summary}</p>
+                </div>
+                <div class="border-t border-surface-border pt-5 md:pt-6 mt-6 md:mt-8 flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4">
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button ${activeChapterIdx===0 ? 'disabled' : ''} onclick="openLesson(${activeChapterIdx-1})" class="flex-1 sm:flex-none h-10 px-4 rounded-lg border border-surface-border text-sm font-medium hover:bg-surface-muted disabled:opacity-50">Chương trước</button>
+                        <button ${activeChapterIdx===chaptersData.length-1 ? 'disabled' : ''} onclick="openLesson(${activeChapterIdx+1})" class="flex-1 sm:flex-none h-10 px-4 rounded-lg border border-surface-border text-sm font-medium hover:bg-surface-muted disabled:opacity-50">Chương sau</button>
+                    </div>
+                    <button onclick="openQuiz('${ch.id}')" class="w-full sm:w-auto h-10 px-6 rounded-lg bg-brand-dark text-white text-sm font-medium hover:bg-zinc-800 flex items-center justify-center transition-colors">
+                        <i data-lucide="help-circle" class="mr-2 h-4 w-4"></i> Làm Quiz Kiểm Tra
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('lessons-content').innerHTML = contentHtml;
+            lucide.createIcons();
+
+            if(ch.sections.length > 0) toggleAccordion(ch.sections[0].id);
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                el.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function markComplete(id) {
+            if (!progress.completedLessons.includes(id)) {
+                progress.completedLessons.push(id);
+                if (!progress.unlockedBadges.includes("first-chapter")) progress.unlockedBadges.push("first-chapter");
+                saveProgress();
+                renderLessonsPage();
+            }
+        }
+
+        // Flashcards Logic
+        let fcIdx = 0;
+        let isFlipped = false;
+
+        function renderFlashcard() {
+            const card = flashcardsData[fcIdx];
+            document.getElementById('fc-chapter').innerText = card.chapterId.toUpperCase();
+            document.getElementById('fc-concept').innerText = card.concept;
+            document.getElementById('fc-def').innerText = card.definition;
+            document.getElementById('flashcard-progress-txt').innerText = `Tiến độ: Card ${fcIdx + 1} / ${flashcardsData.length} (Đã thuộc: ${progress.flashcardsReviewed.length})`;
+            
+            const inner = document.getElementById('flashcard-inner');
+            if (isFlipped) inner.classList.add('rotate-y-180');
+            else inner.classList.remove('rotate-y-180');
+        }
+
+        function toggleFlashcard() {
+            isFlipped = !isFlipped;
+            renderFlashcard();
+        }
+
+        function nextFlashcard() {
+            isFlipped = false;
+            renderFlashcard(); 
+            setTimeout(() => {
+                fcIdx = (fcIdx + 1) % flashcardsData.length;
+                renderFlashcard();
+            }, 150);
+        }
+
+        function prevFlashcard() {
+            isFlipped = false;
+            renderFlashcard();
+            setTimeout(() => {
+                fcIdx = (fcIdx - 1 + flashcardsData.length) % flashcardsData.length;
+                renderFlashcard();
+            }, 150);
+        }
+
+        function masterFlashcard() {
+            const cardId = flashcardsData[fcIdx].id;
+            if (!progress.flashcardsReviewed.includes(cardId)) {
+                progress.flashcardsReviewed.push(cardId);
+                if (progress.flashcardsReviewed.length >= 5 && !progress.unlockedBadges.includes("flashcard-expert")) {
+                    progress.unlockedBadges.push("flashcard-expert");
+                }
+                saveProgress();
+            }
+            nextFlashcard();
+        }
+
+        // Quiz Logic
+        let currentQuizData = null;
+        let selectedAnswers = {};
+        let quizSubmitted = false;
+
+        function openQuiz(chapterId) {
+            currentQuizData = quizzesData[chapterId];
+            if(!currentQuizData || currentQuizData.length === 0) {
+                alert("Quiz cho chương này đang được cập nhật!");
+                return;
+            }
+            selectedAnswers = {};
+            quizSubmitted = false;
+            
+            const ch = chaptersData.find(c => c.id === chapterId);
+            
+            document.getElementById('quiz-header').innerHTML = `
+                <div class="space-y-1">
+                    <button onclick="navigate('lessons')" class="inline-flex items-center text-xs font-bold text-brand-orange hover:underline uppercase tracking-wider mb-1"><i data-lucide="arrow-left" class="mr-1 h-3.5 w-3.5"></i> Trở về lộ trình</button>
+                    <h1 class="text-xl md:text-2xl font-extrabold text-brand-dark tracking-tight font-display">Quiz: Chương ${ch.number}</h1>
+                </div>
+                <div class="text-xs font-bold text-brand-slate bg-surface-card rounded-lg border px-3 py-1.5 uppercase tracking-widest mt-2 sm:mt-0">${currentQuizData.length} Câu</div>
+            `;
+            
+            renderQuizQuestions();
+            navigate('quiz');
+        }
+
+        function selectAnswer(qId, opt) {
+            if (quizSubmitted) return;
+            selectedAnswers[qId] = opt;
+            renderQuizQuestions();
+        }
+
+        function renderQuizQuestions() {
+            const html = currentQuizData.map((q, idx) => {
+                const selectedOpt = selectedAnswers[q.id];
+                const isCorrect = selectedOpt === q.ans;
+                
+                const optsHtml = q.opts.map(opt => {
+                    const isSelected = selectedOpt === opt;
+                    const isAns = opt === q.ans;
+                    
+                    let style = "border-surface-border hover:bg-surface-muted text-brand-dark cursor-pointer";
+                    if (isSelected) style = "border-brand-orange bg-orange-50/40 text-brand-orange font-medium";
+                    
+                    if (quizSubmitted) {
+                        style = "border-surface-border opacity-60 cursor-not-allowed";
+                        if (isAns) style = "border-emerald-500 bg-emerald-50/50 text-emerald-700 font-bold border-2";
+                        else if (isSelected && !isCorrect) style = "border-rose-500 bg-rose-50/50 text-rose-700 border-2";
+                    }
+
+                    return `<div onclick="selectAnswer(${q.id}, '${opt}')" class="w-full text-left rounded-lg border p-3 text-xs md:text-sm transition-all flex items-center justify-between ${style}">
+                        <span>${opt}</span>
+                        ${quizSubmitted && isAns ? `<i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-600 shrink-0 ml-2"></i>` : ''}
+                        ${quizSubmitted && isSelected && !isCorrect ? `<i data-lucide="x-circle" class="h-4 w-4 text-rose-600 shrink-0 ml-2"></i>` : ''}
+                    </div>`;
+                }).join('');
+
+                const expHtml = quizSubmitted ? `
+                    <div class="mt-4 rounded-lg p-3 md:p-4 text-xs md:text-sm leading-relaxed ${isCorrect ? 'bg-emerald-50/30 border border-emerald-100 text-emerald-900' : 'bg-rose-50/20 border border-rose-100 text-zinc-800'}">
+                        <div class="flex items-center space-x-1.5 font-bold mb-1"><i data-lucide="help-circle" class="h-4 w-4 text-brand-orange"></i><span>Giải thích:</span></div>
+                        <p>${q.exp}</p>
+                    </div>
+                ` : '';
+
+                return `
+                    <div class="rounded-xl border border-surface-border bg-white p-4 md:p-6 shadow-sm space-y-3 md:space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <span class="flex h-5 w-5 md:h-6 md:w-6 shrink-0 items-center justify-center rounded-full bg-orange-50 text-xs font-bold text-brand-orange border border-orange-200 mt-0.5">${idx + 1}</span>
+                            <h3 class="text-sm md:text-base font-bold text-brand-dark leading-snug">${q.q}</h3>
+                        </div>
+                        <div class="grid gap-2.5 pl-8 md:pl-9">${optsHtml}</div>
+                        ${expHtml}
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('quiz-questions').innerHTML = html;
+            
+            if(!quizSubmitted) {
+                document.getElementById('quiz-footer').innerHTML = `
+                    <p class="text-xs md:text-sm text-brand-slate font-medium w-full text-center sm:text-left mb-2 sm:mb-0">Kiểm tra kỹ trước khi nộp.</p>
+                    <button onclick="submitQuiz()" class="w-full sm:w-auto h-10 md:h-11 px-6 rounded-lg bg-brand-orange text-white text-sm font-medium hover:bg-orange-600 transition-colors whitespace-nowrap shadow-md">Nộp bài chấm điểm</button>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function submitQuiz() {
+            if(Object.keys(selectedAnswers).length < currentQuizData.length) {
+                alert("Vui lòng trả lời hết các câu hỏi!"); return;
+            }
+            quizSubmitted = true;
+            let correct = 0;
+            currentQuizData.forEach(q => { if(selectedAnswers[q.id] === q.ans) correct++; });
+            const score = Math.round((correct / currentQuizData.length) * 100);
+
+            if (score >= 80 && !progress.unlockedBadges.includes("quiz-master")) {
+                progress.unlockedBadges.push("quiz-master");
+                saveProgress();
+            }
+
+            document.getElementById('quiz-footer').innerHTML = `
+                <div class="flex flex-col sm:flex-row items-center w-full justify-between gap-4">
+                    <div class="text-center sm:text-left">
+                        <span class="text-xs font-bold text-brand-slate uppercase tracking-wider">Kết quả</span>
+                        <div class="text-xl md:text-2xl font-extrabold text-brand-dark">Điểm: <span class="${score>=80?'text-emerald-600':'text-brand-orange'}">${score} / 100</span></div>
+                    </div>
+                    <div class="flex gap-2 md:gap-3 w-full sm:w-auto">
+                        <button onclick="openQuiz('${chaptersData[activeChapterIdx].id}')" class="flex-1 sm:flex-none h-10 px-4 rounded-lg border border-surface-border hover:bg-surface-muted text-sm font-medium flex items-center justify-center"><i data-lucide="refresh-cw" class="mr-2 h-4 w-4"></i> Làm lại</button>
+                        <button onclick="navigate('lessons')" class="flex-1 sm:flex-none h-10 px-6 rounded-lg bg-brand-dark text-white hover:bg-zinc-800 text-sm font-medium transition-colors">Tiếp tục Lộ trình</button>
+                    </div>
+                </div>
+            `;
+            renderQuizQuestions();
+        }
+
+        // Render Resources (Static Data)
+        const materials = [
+            { title: "Giáo trình Tư tưởng HCM (Bộ GD)", format: "PDF Digital", size: "4.8 MB", type: "Chính thức" },
+            { title: "Tác phẩm Đường Kách Mệnh (1927)", format: "Epub / PDF", size: "1.2 MB", type: "Văn kiện" },
+            { title: "Di chúc Chủ tịch Hồ Chí Minh (1969)", format: "Bản Scan gốc", size: "850 KB", type: "Văn kiện" },
+            { title: "Sơ đồ tư duy 6 Chương ôn thi FPT", format: "PNG", size: "12.4 MB", type: "Tóm tắt" }
+        ];
+
+        const forums = [
+            { title: "Cách phân biệt 'Tính đảng' và 'Tính khoa học'?", author: "K18 - SE", likes: 24, replies: 7 },
+            { title: "Mẹo nhớ 4 chuẩn mực đạo đức cách mạng?", author: "Sinh viên Digital", likes: 42, replies: 15 },
+            { title: "Giải nghĩa nhanh 'Pháp quyền nhân nghĩa'", author: "CLB Lý luận", likes: 18, replies: 3 }
+        ];
+
+        document.getElementById('resources-list').innerHTML = materials.map(m => `
+            <div class="bg-white rounded-xl border border-surface-border p-3 md:p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 md:gap-4 hover:shadow-sm transition-all">
+                <div class="space-y-1">
+                    <span class="inline-block rounded bg-orange-50 border border-orange-100 px-2 py-0.5 text-[10px] md:text-xs text-brand-orange font-bold">${m.type}</span>
+                    <h3 class="font-bold text-sm md:text-base text-brand-dark">${m.title}</h3>
+                    <p class="text-[10px] md:text-xs text-brand-slate">${m.format} • ${m.size}</p>
+                </div>
+                <button class="w-full sm:w-auto h-9 px-4 rounded-lg border border-brand-orange text-brand-orange text-xs md:text-sm font-medium hover:bg-orange-50 flex items-center justify-center transition-colors shrink-0">
+                    <i data-lucide="download" class="h-4 w-4 mr-2"></i> Tải về
+                </button>
+            </div>
+        `).join('');
+
+        document.getElementById('forums-list').innerHTML = forums.map(f => `
+            <div class="bg-surface-card rounded-xl border border-surface-border p-3 md:p-4 space-y-2 md:space-y-3 hover:border-brand-orange/40 transition-colors cursor-pointer">
+                <h3 class="font-bold text-xs md:text-sm text-brand-dark line-clamp-2 hover:text-brand-orange transition-colors">${f.title}</h3>
+                <div class="flex justify-between items-center text-[10px] md:text-xs text-brand-slate">
+                    <span>Bởi ${f.author}</span>
+                    <div class="flex gap-3 font-medium">
+                        <span class="flex items-center gap-0.5"><i data-lucide="thumbs-up" class="h-3 w-3"></i> ${f.likes}</span>
+                        <span class="flex items-center gap-0.5"><i data-lucide="message-circle" class="h-3 w-3"></i> ${f.replies}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('') + `<button class="w-full h-10 rounded-lg border bg-brand-dark text-white text-xs md:text-sm font-medium hover:bg-zinc-800 transition-colors mt-2">Tạo chủ đề mới</button>`;
+
+        // Init
+        loadProgress();
+        updateDashboardUI();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
