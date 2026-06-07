@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
         }
     </script>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
 
     <style>
         .page { display: none; animation: fadeIn 0.3s ease-out; }
@@ -62,20 +62,20 @@
                 </div>
             </div>
             <nav class="flex items-center space-x-1 md:space-x-2 overflow-x-auto hide-scrollbar w-full md:w-auto pb-1 md:pb-0">
-                <button onclick="navigate('dashboard')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted active:bg-surface-card active:text-brand-orange">
+                <button onclick="navigate('dashboard')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted !bg-surface-card !text-brand-orange">
                     <i data-lucide="layout-dashboard" class="h-4 w-4"></i><span>Tổng quan</span>
                 </button>
-                <button onclick="navigate('lessons')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted active:bg-surface-card active:text-brand-orange">
+                <button onclick="navigate('lessons')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted">
                     <i data-lucide="book-open" class="h-4 w-4"></i><span>Lộ trình</span>
                 </button>
-                <button onclick="navigate('practical')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted active:bg-surface-card active:text-brand-orange">
+                <button onclick="navigate('practical')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted">
                     <i data-lucide="lightbulb" class="h-4 w-4"></i><span>Góc Thực tiễn</span>
                 </button>
                 
-                <button onclick="navigate('resources')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted active:bg-surface-card active:text-brand-orange">
+                <button onclick="navigate('resources')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted">
                     <i data-lucide="library" class="h-4 w-4"></i><span>Tài nguyên</span>
                 </button>
-                <button onclick="navigate('timeline')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted active:bg-surface-card active:text-brand-orange">
+                <button onclick="navigate('timeline')" class="nav-btn shrink-0 flex items-center space-x-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all text-brand-slate hover:bg-surface-muted">
                     <i data-lucide="map" class="h-4 w-4"></i><span>Bản đồ Lịch sử</span>
                 </button>
 
@@ -93,12 +93,12 @@
                         <span>Đại học FPT Branding Edition</span>
                     </div>
                     <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight font-display leading-tight">Nền tảng Học tập<br><span class="text-brand-orange">Tư tưởng Hồ Chí Minh</span></h1>
-                    <p class="text-sm md:text-lg text-zinc-400">Trải nghiệm học tập trực quan, hệ thống thẻ ghi nhớ thông minh và trắc nghiệm thực chiến bám sát giáo trình chính thức đại học FPT.</p>
+                    <p class="text-sm md:text-lg text-zinc-400">Trải nghiệm học tập trực quan, hệ thống thẻ ghi nhớ thông minh và trắc nghiệm thực chiến bám sát giáo dục tư tưởng.</p>
                     <div class="flex flex-col sm:flex-row gap-3 pt-4">
                         <button onclick="navigate('lessons')" class="flex items-center justify-center h-11 px-6 rounded-lg font-medium bg-brand-orange hover:bg-orange-600 transition-colors w-full sm:w-auto text-white">
                             Bắt đầu học ngay <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
                         </button>
-                        <button onclick="navigate('flashcards')" class="flex items-center justify-center h-11 px-6 rounded-lg font-medium border border-zinc-700 hover:bg-zinc-800 transition-colors w-full sm:w-auto text-white">
+                        <button onclick="navigate('flashcards')" class="flex items-center justify-center h-11 px-6 rounded-lg font-medium border border-zinc-700 hover:bg-zinc-800 transition-colors w-full sm:w-auto">
                             Ôn luyện Flashcards
                         </button>
                     </div>
@@ -107,20 +107,20 @@
 
             <section class="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4">
-                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Tiến độ tổng quan</h3><i data-lucide="target" class="h-5 w-5 text-amber-500"></i></div>
-                    <div class="flex items-baseline space-x-2"><span id="dash-percent" class="text-3xl md:text-4xl font-bold text-brand-dark">0%</span><span class="text-xs md:text-sm text-brand-slate">hoàn thành</span></div>
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Tiến độ tổng quan</h3><i data-lucide="trending-up" class="h-5 w-5 text-brand-orange"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-percent" class="text-3xl md:text-4xl font-bold text-brand-dark">0%</span><span class="text-xs md:text-sm text-brand-slate">Hoàn thành</span></div>
                     <div class="h-2 md:h-3 w-full rounded-full bg-surface-muted overflow-hidden"><div id="dash-bar" class="h-full bg-gradient-to-r from-brand-orange to-amber-500 transition-all duration-500 w-0"></div></div>
                     <p id="dash-lessons-txt" class="text-xs text-brand-slate">Đã học 0/0 tiểu mục lý luận.</p>
                 </div>
                 <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4">
-                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Thẻ Flashcard</h3><i data-lucide="flame" class="h-5 w-5 text-red-500"></i></div>
-                    <div class="flex items-baseline space-x-2"><span id="dash-cards" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">đã thuộc</span></div>
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Thẻ Flashcard</h3><i data-lucide="flame" class="h-5 w-5 text-amber-500"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-cards" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">Thẻ</span></div>
                     <div class="h-2 md:h-3 w-full rounded-full bg-surface-muted overflow-hidden"><div id="dash-card-bar" class="h-full bg-amber-500 transition-all duration-500 w-0"></div></div>
                     <p class="text-xs text-brand-slate">Chủ động ghi nhớ sâu các định nghĩa nền tảng.</p>
                 </div>
                 <div class="rounded-xl border border-surface-border bg-white p-5 md:p-6 shadow-sm space-y-3 md:space-y-4 sm:col-span-2 md:col-span-1">
-                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Huy hiệu đạt được</h3><i data-lucide="star" class="h-5 w-5 text-brand-gold"></i></div>
-                    <div class="flex items-baseline space-x-2"><span id="dash-badges-count" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">huy hiệu</span></div>
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-brand-slate text-xs md:text-sm uppercase tracking-wider">Huy hiệu đạt được</h3><i data-lucide="award" class="h-5 w-5 text-brand-gold"></i></div>
+                    <div class="flex items-baseline space-x-2"><span id="dash-badges-count" class="text-3xl md:text-4xl font-bold text-brand-dark">0</span><span class="text-xs md:text-sm text-brand-slate">Huy hiệu</span></div>
                     <div id="dash-badges-list" class="flex gap-2 pt-1 flex-wrap"></div>
                 </div>
             </section>
@@ -147,7 +147,7 @@
         <main id="practical" class="page container mx-auto max-w-5xl px-4 py-8 md:py-12 space-y-8">
             <div class="text-center space-y-3">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight font-display">Góc Vận Dụng Thực Tiễn</h1>
-                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto leading-relaxed">Đưa lý luận của Chủ tịch Hồ Chí Minh ra khỏi trang sách, ứng dụng trực tiếp trong học tập, sống và làm việc hàng ngày.</p>
+                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto leading-relaxed">Đưa lý luận của Chủ tịch Hồ Chí Minh ra khỏi trang sách, ứng dụng trực tiếp trong cuộc sống sinh viên.</p>
             </div>
             
             <div class="grid gap-6 md:grid-cols-2">
@@ -157,7 +157,7 @@
                         <h2 class="text-lg font-bold text-brand-dark font-display">Đạo đức "Cần, Kiệm, Liêm, Chính" trong Học tập</h2>
                     </div>
                     <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
-                        <li><b>Cần:</b> Chủ động, tự giác nghiên cứu tài liệu trên Coursera/Udemy, không chờ đợi giảng viên nhắc nhở.</li>
+                        <li><b>Cần:</b> Chủ động, tự giác nghiên cứu tài liệu trên Coursera/Udemy, không chờ ��ợi giảng viên nhắc nhở.</li>
                         <li><b>Kiệm:</b> Tiết kiệm thời gian, không sa đà vào mạng xã hội; tiết kiệm tài nguyên của trường (điện, nước).</li>
                         <li><b>Liêm:</b> Tuyệt đối không gian lận trong thi cử (không copy code, đạo văn, sử dụng phao thi).</li>
                         <li><b>Chính:</b> Bảo vệ cái đúng, dũng cảm lên tiếng trước các hành vi tiêu cực trong lớp học.</li>
@@ -171,7 +171,7 @@
                     </div>
                     <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
                         <li>Đoàn kết không phải là "cả nể", mà là phân công công việc rõ ràng, hỗ trợ nhau cùng hoàn thành mục tiêu chung của Project.</li>
-                        <li>Thực hiện <b>"Tự phê bình và phê bình"</b>: Góp ý thẳng thắn cho thành viên làm việc trễ deadline trên tinh thần xây dựng, không công khai lên mạng.</li>
+                        <li>Thực hiện <b>"Tự phê bình và phê bình"</b>: Góp ý thẳng thắn cho thành viên làm việc trễ deadline trên tinh thần xây dựng, không công khai làm mất mặt.</li>
                         <li>Trân trọng sự khác biệt (khoan dung): Lắng nghe ý tưởng của mọi thành viên, kết hợp sức mạnh của từng cá nhân.</li>
                     </ul>
                 </div>
@@ -182,8 +182,8 @@
                         <h2 class="text-lg font-bold text-brand-dark font-display">Kết hợp Sức mạnh dân tộc & Thời đại 4.0</h2>
                     </div>
                     <ul class="space-y-2 text-sm text-zinc-700 list-disc pl-5">
-                        <li><b>Sức mạnh thời đại:</b> Chủ động học hỏi công nghệ mới (AI, Blockchain), nâng cao trình độ ngoại ngữ (Tiếng Anh, Nhật) để hộp tác với thế giới.</li>
-                        <li><b>Sức mạnh dân tộc:</b> Mang trí tuệ, sản phẩm công nghệ của người Việt ra toàn cầu nhưng vẫn giữ gìn bản sắc văn hóa, không bỏ rơi nguồn gốc.</li>
+                        <li><b>Sức mạnh thời đại:</b> Chủ động học hỏi công nghệ mới (AI, Blockchain), nâng cao trình độ ngoại ngữ (Tiếng Anh, Nhật) để hộ trợ cho sự phát triển quốc gia.</li>
+                        <li><b>Sức mạnh dân tộc:</b> Mang trí tuệ, sản phẩm công nghệ của người Việt ra toàn cầu nhưng vẫn giữ gìn bản sắc văn hóa, không biến mất dân tộc.</li>
                         <li>Lan tỏa hình ảnh đẹp về sinh viên Việt Nam thân thiện, thông minh với bạn bè quốc tế.</li>
                     </ul>
                 </div>
@@ -204,7 +204,7 @@
 
         <main id="flashcards" class="page container mx-auto max-w-xl px-4 py-8 md:py-12 space-y-6 md:space-y-8 flex flex-col items-center">
             <div class="text-center space-y-2 w-full">
-                <div class="flex justify-center mb-2 md:mb-4"><button onclick="navigate('dashboard')" class="text-brand-slate hover:text-brand-orange text-sm flex items-center transition-colors"><i data-lucide="chevron-left" class="h-4 w-4"></i> Quay lại</button></div>
+                <div class="flex justify-center mb-2 md:mb-4"><button onclick="navigate('dashboard')" class="text-brand-slate hover:text-brand-orange text-sm flex items-center transition-colors"><i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Quay lại</button></div>
                 <h1 class="text-2xl md:text-3xl font-extrabold text-brand-dark tracking-tight font-display">Thẻ Ghi Nhớ (Flashcards)</h1>
                 <p class="text-brand-slate text-xs md:text-sm">Lật thẻ để ôn luyện các định nghĩa lý luận cốt lõi.</p>
                 <div id="flashcard-progress-txt" class="text-xs text-brand-orange font-bold uppercase tracking-wider pt-2">Tiến độ: Card 1 / x</div>
@@ -212,14 +212,14 @@
 
             <div id="flashcard-container" class="w-full h-72 md:h-80 cursor-pointer select-none relative group perspective-1000" onclick="toggleFlashcard()">
                 <div id="flashcard-inner" class="w-full h-full transform-style-3d relative">
-                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-surface-border bg-white shadow-md p-6 flex flex-col justify-between backface-hidden group-hover:border-brand-orange/50 transition-colors">
+                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-surface-border bg-white shadow-md p-6 flex flex-col justify-between backface-hidden group-hover:border-brand-orange transition-colors">
                         <span id="fc-chapter" class="text-xs font-bold text-brand-orange uppercase tracking-widest">CHAPTER</span>
                         <div id="fc-concept" class="text-center text-xl md:text-2xl font-extrabold text-brand-dark px-2 md:px-4 font-display">Concept</div>
                         <div class="flex justify-center items-center text-xs text-brand-slate gap-1 font-medium">
                             <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i> Chạm để xem định nghĩa
                         </div>
                     </div>
-                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-brand-orange bg-orange-50/95 shadow-lg p-5 md:p-6 flex flex-col justify-between backface-hidden rotate-y-180">
+                    <div class="absolute inset-0 w-full h-full rounded-2xl border-2 border-brand-orange bg-orange-50/95 shadow-lg p-5 md:p-6 flex flex-col justify-between backface-hidden rotate-y-180" style="transform: rotateY(180deg);">
                         <span class="text-xs font-bold text-brand-orange uppercase tracking-widest text-center">GIẢI THÍCH</span>
                         <div id="fc-def" class="text-zinc-800 text-sm md:text-base font-medium leading-relaxed px-1 md:px-2 text-center overflow-y-auto max-h-48 hide-scrollbar">Definition</div>
                         <div class="text-center text-xs text-brand-orange font-bold">HCM Learning Hub</div>
@@ -284,7 +284,7 @@
                     <i data-lucide="compass" class="h-4 w-4"></i><span>Hành trình Tư tưởng</span>
                 </div>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight font-display">Bản Đồ Con Số Lịch Sử</h1>
-                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto">Hệ thống hóa các cột mốc thời gian và sự kiện quan trọng có tính bước ngoặt trong quá trình hình thành, phát triển tư tưởng Hồ Chí Minh.</p>
+                <p class="text-brand-slate text-sm md:text-base max-w-2xl mx-auto">Hệ thống hóa các cột mốc thời gian và sự kiện quan trọng có tính bước ngoặt trong quá trình hình thành và phát triển tư tưởng của Hồ Chí Minh.</p>
             </div>
 
             <!-- Timeline Wrapper -->
@@ -308,17 +308,17 @@
             {
                 id: "chapter-1", number: 1,
                 title: "Khái niệm, đối tượng, phương pháp nghiên cứu",
-                intro: "Trang bị kiến thức nền tảng mang tính nhập môn về hệ thống tư tưởng của Chủ tịch Hồ Chí Minh, định rõ bản chất khoa học lý luận và ý nghĩa học tập.",
+                intro: "Trang bị kiến thức nền tảng mang tính nhập môn về hệ thống tư tưởng của Chủ tịch Hồ Chí Minh, định rõ bản chất khoa học lý luận, đối tượng của quá trình học tập.",
                 objectives: [
                     "Hiểu rõ nội hàm hệ thống khái niệm Tư tưởng Hồ Chí Minh (Đại hội XI - 2011).",
                     "Xác định đúng đối tượng nghiên cứu: Hệ thống quan điểm và quá trình hiện thực hóa trong thực tiễn.",
                     "Nắm vững nguyên tắc phương pháp luận: Thống nhất tính đảng và tính khoa học."
                 ],
                 sections: [
-                    { id: "ch-1-sec-1", title: "1. Khái niệm Tư tưởng Hồ Chí Minh", content: "Đại hội XI (2011) định nghĩa: 'Tư tưởng Hồ Chí Minh là một hệ thống những quan điểm của Chủ tịch Hồ Chí Minh về cách mạng Việt Nam và phát triển của nhân loại, được hình thành và phát triển thông qua các giai đoạn của nó.'" },
-                    { id: "ch-1-sec-2", title: "2. Đối tượng nghiên cứu", content: "Bao gồm: Toàn bộ những quan điểm của Hồ Chí Minh thể hiện trong di sản của Người, lịch sử hoạt động thực tiễn của Người." },
-                    { id: "ch-1-sec-3", title: "3. Phương pháp luận nghiên cứu", content: "Nguyên tắc cốt lõi: Thống nhất tính đảng và tính khoa học; kết hợp lý luận và thực tiễn; quan điểm lịch sử - cụ thể." },
-                    { id: "ch-1-sec-4", title: "4. Ý nghĩa học tập", content: "Việc học tập giúp sinh viên nâng cao năng lực tư duy lý luận, kiên định nền tảng tư tưởng, tu dưỡng đạo đức cách mạng." }
+                    { id: "ch-1-sec-1", title: "1. Khái niệm Tư tưởng Hồ Chí Minh", content: "Đại hội XI (2011) định nghĩa: 'Tư tưởng Hồ Chí Minh là một hệ thống quan điểm và quá trình hiện thực hóa những quan điểm đó của Chủ tịch Hồ Chí Minh'." },
+                    { id: "ch-1-sec-2", title: "2. Đối tượng nghiên cứu", content: "Bao gồm: Toàn bộ những quan điểm của Hồ Chí Minh thể hiện trong di sản của Người, được kế thừa, phát triển và áp dụng trong thực tiễn cách mạng Việt Nam." },
+                    { id: "ch-1-sec-3", title: "3. Phương pháp luận nghiên cứu", content: "Nguyên tắc cốt lõi: Thống nhất tính đảng và tính khoa học; kết hợp lý luận với thực tiễn; sử dụng phương pháp lịch sử và logic trong phân tích." },
+                    { id: "ch-1-sec-4", title: "4. Ý nghĩa học tập", content: "Việc học tập giúp sinh viên nâng cao năng lực tư duy lý luận, kiên định nền tảng tư tưởng, rèn luyện đạo đức và trách nhiệm xã hội." }
                 ],
                 summary: "Tư tưởng Hồ Chí Minh cùng với Chủ nghĩa Mác-Lênin là nền tảng tư tưởng, kim chỉ nam hành động của Đảng Cộng sản Việt Nam.",
             }
